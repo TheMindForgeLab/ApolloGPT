@@ -91,6 +91,25 @@ CREATE TABLE IF NOT EXISTS tasks (
     FOREIGN KEY (project_id) REFERENCES projects(id),
     FOREIGN KEY (agent_id) REFERENCES agents(id)
 );
+
+CREATE TABLE IF NOT EXISTS automations (
+    id TEXT PRIMARY KEY,
+    business_id TEXT,
+    department_id TEXT,
+    project_id TEXT,
+    name TEXT NOT NULL,
+    trigger_json TEXT NOT NULL DEFAULT '{}',
+    conditions_json TEXT NOT NULL DEFAULT '[]',
+    workflow_name TEXT NOT NULL DEFAULT '',
+    approval_required INTEGER NOT NULL DEFAULT 1,
+    status TEXT NOT NULL DEFAULT 'draft',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    FOREIGN KEY (business_id) REFERENCES businesses(id),
+    FOREIGN KEY (department_id) REFERENCES departments(id),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
 """
 
 

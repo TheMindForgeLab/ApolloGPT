@@ -175,6 +175,12 @@ python -m apollo.main "Use whatever model LM Studio is serving."
 
 For MoE models, add entries with both `size` and `active_parameters`, then assign roles like `reasoning`, `writing`, `coding`, or `manual`.
 
+Provider/API status is exposed through:
+
+- `GET /api/models`
+- `GET /api/models/providers`
+- `GET /api/models/active`
+
 ## Best Near-Term Path
 
 1. Keep Ollama for simple local models.

@@ -73,6 +73,13 @@ python scripts/phase2_memory_smoke_test.py
 python scripts/ingest_text_file.py docs/APOLLOGPT_BUILD_SPEC.md --project ApolloGPT
 ```
 
+Model and automation verification:
+
+```powershell
+python scripts/model_provider_smoke_test.py
+python scripts/seed_demo_data.py
+```
+
 ## Phase 3: Agent System
 
 Goal: manager, researcher, writer, editor, coder, media, automation, validator, analyst, and planner agents.

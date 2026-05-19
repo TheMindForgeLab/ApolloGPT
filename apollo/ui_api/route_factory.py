@@ -15,4 +15,3 @@ def make_resource_router(name: str) -> APIRouter:
         return {"resource": name, "status": "ready_for_implementation"}
 
     return router
-
