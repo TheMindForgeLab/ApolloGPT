@@ -4,3 +4,38 @@ export type Agent = {
   role: string;
 };
 
+export type Business = {
+  id: string;
+  name: string;
+  business_type: string;
+  purpose: string;
+  goals: string[];
+  brand_voice: string;
+};
+
+export type Department = {
+  id: string;
+  business_id: string;
+  name: string;
+  purpose: string;
+};
+
+export type Project = {
+  id: string;
+  business_id?: string;
+  name: string;
+  goal: string;
+  status: string;
+  progress: number;
+};
+
+export type Task = {
+  id: string;
+  business_id?: string;
+  project_id?: string;
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  progress: number;
+};

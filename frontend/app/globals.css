@@ -27,6 +27,20 @@ button, input, select, textarea {
   font: inherit;
 }
 
+input, textarea, select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 10px;
+  width: 100%;
+  background: #fff;
+  color: var(--text);
+}
+
+textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
 .app-shell {
   min-height: 100vh;
   display: grid;
@@ -254,4 +268,3 @@ button, input, select, textarea {
     border-bottom: 1px solid var(--line);
   }
 }
-

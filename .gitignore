@@ -8,4 +8,8 @@ storage/logs/*.jsonl
 storage/raw_memory/*.jsonl
 storage/vector_db/*.jsonl
 storage/graph_db/*.jsonl
+storage/summaries/*.md
+!storage/summaries/apollogpt.md
+storage/*.sqlite
+storage/*.sqlite3
 !storage/**/.gitkeep

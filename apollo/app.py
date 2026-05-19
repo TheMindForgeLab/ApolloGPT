@@ -9,6 +9,7 @@ try:
     from apollo.api.memory_routes import router as memory_router
     from apollo.api.workflow_routes import router as workflow_router
     from apollo.ui_api.business_routes import router as ui_business_router
+    from apollo.ui_api.agent_routes import router as ui_agent_router
     from apollo.ui_api.dashboard_routes import router as ui_dashboard_router
     from apollo.ui_api.department_routes import router as ui_department_router
     from apollo.ui_api.log_routes import router as ui_log_router
@@ -29,6 +30,7 @@ if FastAPI:
     app.include_router(memory_router)
     app.include_router(workflow_router)
     app.include_router(ui_business_router)
+    app.include_router(ui_agent_router)
     app.include_router(ui_dashboard_router)
     app.include_router(ui_department_router)
     app.include_router(ui_log_router)

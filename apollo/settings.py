@@ -16,6 +16,7 @@ def _bool(name: str, default: bool = False) -> bool:
 class Settings:
     workspace_id: str = os.getenv("APOLLO_WORKSPACE_ID", "workspace_apollo")
     storage_dir: Path = Path(os.getenv("APOLLO_STORAGE_DIR", "storage"))
+    database_path: Path = Path(os.getenv("APOLLO_DATABASE_PATH", "storage/apollo.sqlite3"))
     use_ollama: bool = _bool("APOLLO_USE_OLLAMA", False)
     model_provider: str = os.getenv("APOLLO_MODEL_PROVIDER", "local_echo")
     ollama_host: str = os.getenv("APOLLO_OLLAMA_HOST", "http://localhost:11434")

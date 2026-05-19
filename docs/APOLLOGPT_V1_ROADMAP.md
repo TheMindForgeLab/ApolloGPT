@@ -33,6 +33,24 @@ Files:
 - `apollo/core/validator.py`
 - `apollo/core/schemas.py`
 
+Phase 1 implementation target:
+
+- SQLite persistence in `storage/apollo.sqlite3`
+- create/list/get businesses
+- create/list/get departments
+- create/list/get projects
+- create/list agents
+- create/list/update tasks
+- generated starter structure when creating a business
+- frontend creation studio calls the backend
+- business dashboard and task board read real API data
+
+Run:
+
+```powershell
+python scripts/phase1_smoke_test.py
+```
+
 ## Phase 2: Memory System
 
 Goal: persistent project memory with context packets.
@@ -80,4 +98,3 @@ Goal: run models and jobs across multiple local machines and optional cloud node
 ## Phase 11: Evaluation + Security + Production
 
 Goal: auth, permissions, API keys, encryption, rate limits, model/agent/workflow evaluation, logs, backups, and deployment.
-
