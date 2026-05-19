@@ -1,0 +1,3 @@
+class BackgroundJobs:
+    pass
+

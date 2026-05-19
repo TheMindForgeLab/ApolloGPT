@@ -1,0 +1,12 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+
+def read_text_file(path: str) -> str:
+    return Path(path).read_text(encoding="utf-8")
+
+
+def list_files(path: str) -> list[str]:
+    return [str(item) for item in Path(path).iterdir()]
+

@@ -1,0 +1,3 @@
+class WebSearchTool:
+    pass
+

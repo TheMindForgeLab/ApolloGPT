@@ -1,0 +1,5 @@
+workflows:
+  - id: content_pipeline
+    steps: [research, write, edit, publish]
+  - id: coding_task
+    steps: [plan, implement, validate, document]

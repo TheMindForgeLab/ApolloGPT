@@ -1,0 +1,3 @@
+class NotificationTool:
+    pass
+

@@ -1,0 +1,2 @@
+from apollo.models.adapters.openai_compatible_adapter import OpenAICompatibleAdapter as LMStudioAdapter
+

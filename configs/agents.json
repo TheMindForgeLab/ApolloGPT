@@ -1,0 +1,23 @@
+{
+  "agents": [
+    {
+      "id": "agent_manager",
+      "role": "Project planning, delegation, continuity, and progress tracking",
+      "memory_access": ["workspace", "project", "agent"],
+      "tools": ["memory_search", "workflow_runner"]
+    },
+    {
+      "id": "agent_developer",
+      "role": "Python backend implementation, APIs, debugging, architecture",
+      "memory_access": ["workspace", "project", "files"],
+      "tools": ["file_tools", "code_tools"]
+    },
+    {
+      "id": "agent_writer",
+      "role": "Whitepapers, posts, books, scripts, documentation",
+      "memory_access": ["workspace", "project", "style"],
+      "tools": ["memory_search", "document_tools"]
+    }
+  ]
+}
+

@@ -1,0 +1,22 @@
+{
+  "layers": [
+    "raw",
+    "vector",
+    "graph",
+    "summary",
+    "working",
+    "procedural",
+    "preference",
+    "outcome"
+  ],
+  "retrieval_score": {
+    "semantic_similarity": 0.35,
+    "graph_relevance": 0.25,
+    "scope_match": 0.2,
+    "recency": 0.1,
+    "importance": 0.1
+  },
+  "default_scope": "project",
+  "temperature_bands": ["hot", "warm", "cold"]
+}
+

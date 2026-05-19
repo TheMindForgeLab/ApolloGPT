@@ -1,0 +1,65 @@
+{
+  "models": [
+    {
+      "id": "mistral_ollama_default",
+      "provider": "ollama",
+      "model": "mistral",
+      "role": "default",
+      "base_url": "http://localhost:11434",
+      "capabilities": ["chat", "writing", "planning"],
+      "size": "7B",
+      "notes": "Good general local default."
+    },
+    {
+      "id": "llama3_ollama_reasoning",
+      "provider": "ollama",
+      "model": "llama3",
+      "role": "reasoning",
+      "base_url": "http://localhost:11434",
+      "capabilities": ["chat", "reasoning", "planning"],
+      "size": "8B"
+    },
+    {
+      "id": "deepseek_ollama_coding",
+      "provider": "ollama",
+      "model": "deepseek-coder",
+      "role": "coding",
+      "base_url": "http://localhost:11434",
+      "capabilities": ["coding", "debugging", "architecture"]
+    },
+    {
+      "id": "lmstudio_openai_compatible",
+      "provider": "lmstudio",
+      "model": "local-model",
+      "role": "manual",
+      "base_url": "http://localhost:1234/v1",
+      "capabilities": ["chat", "moe", "gguf", "manual_model_loading"],
+      "notes": "Use LM Studio server mode. Set APOLLO_MODEL_PROVIDER=lmstudio and set model names to the loaded model id."
+    },
+    {
+      "id": "vllm_openai_compatible",
+      "provider": "vllm",
+      "model": "served-model-name",
+      "role": "server",
+      "base_url": "http://localhost:8001/v1",
+      "capabilities": ["chat", "high_throughput", "gpu_server", "openai_compatible"]
+    },
+    {
+      "id": "textgen_webui",
+      "provider": "textgen-webui",
+      "model": "loaded-model",
+      "role": "manual",
+      "base_url": "http://localhost:5000",
+      "capabilities": ["gguf", "gptq", "exl2", "lora", "manual_model_loading"]
+    },
+    {
+      "id": "koboldcpp",
+      "provider": "koboldcpp",
+      "model": "loaded-gguf",
+      "role": "manual",
+      "base_url": "http://localhost:5001",
+      "capabilities": ["gguf", "cpu_gpu_split", "simple_local_server"]
+    }
+  ]
+}
+

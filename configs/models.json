@@ -1,0 +1,10 @@
+{
+  "default": "mistral",
+  "writing": "mistral",
+  "reasoning": "llama3",
+  "coding": "deepseek-coder",
+  "image": "stable-diffusion",
+  "speech": "whisper",
+  "cloud_fallback_enabled": false
+}
+

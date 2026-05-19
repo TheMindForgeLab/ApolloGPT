@@ -1,0 +1,3 @@
+security:
+  external_actions_require_approval: true
+  cloud_fallback_enabled_by_default: false

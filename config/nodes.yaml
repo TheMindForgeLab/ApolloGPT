@@ -1,0 +1,4 @@
+nodes:
+  - id: local_node
+    status: local
+    capabilities: [cpu, local_files, ollama_optional]

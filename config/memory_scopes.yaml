@@ -1,0 +1,7 @@
+scopes:
+  - global
+  - business
+  - department
+  - project
+  - agent
+  - task

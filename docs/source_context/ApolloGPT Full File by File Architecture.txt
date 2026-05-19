@@ -1,0 +1,858 @@
+﻿ApolloGPT Full File-by-File Architecture
+Backend + UI + Memory + Agents + Workflows + Models + Nodes
+This is the buildable master file architecture for ApolloGPT as a full intelligence operating system. It aligns with the V2 whitepaper’s stated goal: a professional modular repository supporting memory, agents, workflows, automations, model routing, node compute, UI, modules, wizards, multimodal intelligence, security, and local deployment. 
+0. Root Repository
+ApolloGPT/├── README.md├── LICENSE├── requirements.txt├── pyproject.toml├── .env.example├── .gitignore├── docker-compose.yml├── Dockerfile├── setup.md├── start_backend.bat├── start_backend.sh├── start_frontend.bat├── start_frontend.sh├── start_worker.bat├── start_worker.sh├── start_scheduler.bat├── start_scheduler.sh├── docs/├── apollo/├── frontend/├── configs/├── storage/├── data/├── scripts/├── tests/├── examples/└── modules/
+Root File Purposes
+File
+Purpose
+README.md
+Main intro, architecture overview, install guide, first demo.
+LICENSE
+Open-source or commercial license.
+requirements.txt
+Python dependencies: FastAPI, SQLAlchemy, ChromaDB, NetworkX, sentence-transformers, etc.
+pyproject.toml
+Modern Python package metadata, linting, formatting, build config.
+.env.example
+Local environment variables for database, models, Stable Diffusion, paths, security mode.
+.gitignore
+Excludes venvs, model files, logs, database files, secrets.
+docker-compose.yml
+Runs backend, frontend, worker, scheduler, optional Redis/vector DB.
+Dockerfile
+Backend container definition.
+setup.md
+Beginner-friendly install instructions.
+start_backend.*
+Launch FastAPI backend.
+start_frontend.*
+Launch React/Next frontend.
+start_worker.*
+Launch background worker.
+start_scheduler.*
+Launch automation scheduler.
+The whitepaper explicitly calls for these root files and launch scripts so ApolloGPT remains beginner-friendly and locally deployable. 
+1. Documentation Layer
+docs/├── whitepaper.md├── technical_spec.md├── architecture.md├── system_flow.md├── object_system.md├── memory_system.md├── knowledge_graph.md├── context_packet_system.md├── agent_system.md├── workflow_system.md├── automation_system.md├── model_routing.md├── node_architecture.md├── ui_design.md├── api_reference.md├── security.md├── deployment.md├── roadmap.md└── glossary.md
+File
+Purpose
+whitepaper.md
+Condensed 30–45 pageApolloGPT vision.
+technical_spec.md
+Developer system spec.
+architecture.md
+Full architecture summary.
+system_flow.md
+User intent → memory → context packet → agent → workflow → output loop.
+object_system.md
+Explains workspaces, areas, projects, chats, files, tasks, agents, workflows.
+memory_system.md
+Raw, vector, graph, summary, episodic, procedural, preference, execution memory.
+knowledge_graph.md
+Object links, graph schema, relationship types, GraphRAG behavior.
+context_packet_system.md
+Context packet schema and construction flow.
+agent_system.md
+Agent roles, autonomy, memory scopes, tool permissions.
+workflow_system.md
+Native DAG workflow system.
+automation_system.md
+Cron, webhook, event, state triggers.
+model_routing.md
+Local/cloud/multimodal routing logic.
+node_architecture.md
+Multi-machine compute fabric.
+ui_design.md
+3-panel UI design.
+api_reference.md
+Backend endpoint documentation.
+security.md
+Local sovereignty, permissions, secrets, audit logs.
+deployment.md
+Local, Docker, LAN, production deployment.
+roadmap.md
+MVP → Alpha → Beta → Production.
+glossary.md
+Terms: Work Object, Context Packet, Memory Temperature, etc.
+2. Main Backend Package
+apollo/├── __init__.py├── app.py├── settings.py├── dependencies.py├── constants.py└── version.py
+File
+Purpose
+app.py
+FastAPIentrypoint. Registers API routes, startup hooks, health checks.
+settings.py
+Loads .env, paths, ports, model URLs, feature flags.
+dependencies.py
+Shared dependency injection: DB session, services, config.
+constants.py
+Global constants: object types, memory types, statuses.
+version.py
+App version and build metadata.
+3. Core Orchestration Layer
+apollo/core/├── orchestrator.py├── task_router.py├── object_resolver.py├── context_packet_builder.py├── event_bus.py├── scheduler.py├── state_manager.py├── permissions.py├── telemetry.py├── errors.py└── lifecycle.py
+File
+Purpose
+orchestrator.py
+Master controller. Receives user intent, calls router, memory, agents, models, workflows.
+task_router.py
+Classifies task type: writing, research, coding, image, automation, trading, real estate, etc.
+object_resolver.py
+Determines active workspace/project/chat/task/file from user input.
+context_packet_builder.py
+Builds structured context packets from memory, state, constraints, and tools.
+event_bus.py
+Internal pub/sub for events: task created, file uploaded, workflow completed, memory updated.
+scheduler.py
+General scheduling interface for background tasks.
+state_manager.py
+Tracks active tasks, workflow state, agent state, UI state.
+permissions.py
+Checks agent/user/tool access.
+telemetry.py
+Captures runtime metrics, latency, success/failure rates.
+errors.py
+Custom exceptions and error classes.
+lifecycle.py
+Startup/shutdown service coordination.
+The full architectural thesis centers on the loop: User Intent → Work Object → Memory Retrieval → Context Packet → Agent → Workflow → Model Router → Node Execution → Output → Memory Update → State Update → Next Action. 
+4. Database Layer
+apollo/db/├── database.py├── session.py├── base.py├── migrations/├── models/│   ├── object_model.py│   ├── relationship_model.py│   ├── memory_model.py│   ├── task_model.py│   ├── agent_model.py│   ├── workflow_model.py│   ├── automation_model.py│   ├── model_model.py│   ├── node_model.py│   ├── output_model.py│   ├── file_model.py│   └── event_model.py└── repositories/    ├── object_repo.py    ├── relationship_repo.py    ├── memory_repo.py    ├── task_repo.py    ├── agent_repo.py    ├── workflow_repo.py    ├── automation_repo.py    ├── model_repo.py    ├── node_repo.py    ├── output_repo.py    └── file_repo.py
+Key Purpose
+SQLite first. PostgreSQL later.
+File
+Purpose
+database.py
+Creates DB engine.
+session.py
+DB session dependency.
+base.py
+SQLAlchemy base model.
+models/*
+Tables for objects, memory, agents, workflows, outputs, etc.
+repositories/*
+Clean DB access layer.
+5. Object System
+apollo/objects/├── schemas.py├── object_types.py├── object_service.py├── object_registry.py├── relationship_service.py├── relationship_types.py├── lifecycle.py├── object_search.py└── object_import_export.py
+File
+Purpose
+schemas.py
+Pydantic schemas for Workspace, Area, Project, Task, Chat, File, Agent, Workflow, Output.
+object_types.py
+Enum of all object types.
+object_service.py
+Create/update/delete/list objects.
+object_registry.py
+Central registry of all work objects.
+relationship_service.py
+Create graph links between objects.
+relationship_types.py
+Relationship enums: contains, depends_on, produced_by, derived_from, etc.
+lifecycle.py
+Object lifecycle: create → link → execute → update → archive.
+object_search.py
+Search/filter objects by type, scope, tag, status.
+object_import_export.py
+Export/import projects, agents, workflows, modules.
+Core Object Types
+WorkspaceAreaDepartmentProjectChatMessageFileTaskAgentWorkflowAutomationMemoryDecisionOutputModelNodeModuleWizard
+6. Memory System
+apollo/memory/├── memory_manager.py├── memory_unit.py├── memory_types.py├── memory_scopes.py├── memory_temperature.py├── memory_policy.py├── raw_memory.py├── vector_memory.py├── graph_memory.py├── summary_memory.py├── procedural_memory.py├── episodic_memory.py├── preference_memory.py├── execution_memory.py├── state_memory.py├── ingestion_pipeline.py├── chunker.py├── embedder.py├── reranker.py├── retriever.py├── summarizer.py├── entity_extractor.py├── metadata_tagger.py├── memory_cleaner.py├── memory_promoter.py└── memory_exporter.py
+File
+Purpose
+memory_manager.py
+Central memory coordinator.
+memory_unit.py
+Memory object schema.
+memory_types.py
+Raw, vector, graph, summary, procedural, episodic, preference, execution, state.
+memory_scopes.py
+Global, workspace, area, department, project, agent, workflow, task, session, working.
+memory_temperature.py
+Hot, warm, cold memory behavior.
+memory_policy.py
+Rules for saving, forgetting, promoting, archiving.
+raw_memory.py
+Stores original chats/files/logs.
+vector_memory.py
+ChromaDB/FAISS adapter.
+graph_memory.py
+Graph relationship memory.
+summary_memory.py
+Project/chat/workflow/agent summaries.
+procedural_memory.py
+SOPs and reusable process knowledge.
+episodic_memory.py
+Timeline/events.
+preference_memory.py
+User/system/agent preferences.
+execution_memory.py
+Runtime performance and outcomes.
+state_memory.py
+Current project/workflow/agent state.
+ingestion_pipeline.py
+File/chat/document ingestion pipeline.
+chunker.py
+Token-aware chunking.
+embedder.py
+Embedding generation.
+reranker.py
+Relevance ranking.
+retriever.py
+Hybrid RAG + GraphRAG + scoped retrieval.
+summarizer.py
+Rolling summaries.
+entity_extractor.py
+Extracts people, projects, topics, concepts, tasks.
+metadata_tagger.py
+Adds tags, project IDs, source IDs, importance.
+memory_cleaner.py
+Deduplication, stale memory detection.
+memory_promoter.py
+Moves useful memory upward: project → workspace → global.
+memory_exporter.py
+Export memory packs.
+The whitepaper’s memory section is the core: ApolloGPT must preserve context, organize knowledge, connect ideas, guide agents, inform workflows, prevent repeated work, and improve future execution—not merely store data. 
+7. Knowledge Graph Layer
+apollo/graph/├── graph_service.py├── graph_schema.py├── graph_store.py├── graph_query.py├── graph_traversal.py├── graph_builder.py├── graph_visualizer.py├── conflict_detector.py├── lineage_tracker.py├── impact_mapper.py└── graph_maintenance.py
+File
+Purpose
+graph_service.py
+High-level graph operations.
+graph_schema.py
+Node/edge schema.
+graph_store.py
+SQLite/NetworkX now, Neo4j later.
+graph_query.py
+Natural-language query translation to graph traversal.
+graph_traversal.py
+Neighbor/path/multi-hop traversal.
+graph_builder.py
+Builds graph from objects, memory, files, chats.
+graph_visualizer.py
+Data returned to UI graph views.
+conflict_detector.py
+Detects contradictions and superseded decisions.
+lineage_tracker.py
+Tracks output provenance.
+impact_mapper.py
+Shows what a decision affects.
+graph_maintenance.py
+Merge duplicate nodes, prune noisy edges, update stale links.
+8. Context Packet System
+apollo/context/├── context_packet.py├── packet_builder.py├── packet_renderer.py├── packet_optimizer.py├── packet_debugger.py├── packet_templates.py└── packet_store.py
+File
+Purpose
+context_packet.py
+Data model for task-specific execution packets.
+packet_builder.py
+Assembles task, memory, state, agent role, constraints.
+packet_renderer.py
+Converts packet into model-specific prompt format.
+packet_optimizer.py
+Compresses, dedupes, trims to token budget.
+packet_debugger.py
+Shows what context was used and why.
+packet_templates.py
+Writing packet, coding packet, workflow packet, image packet, research packet.
+packet_store.py
+Stores packets for audit and reuse.
+9. Agent System
+apollo/agents/├── base_agent.py├── agent_controller.py├── agent_registry.py├── agent_schema.py├── agent_factory.py├── agent_memory.py├── agent_tools.py├── agent_permissions.py├── autonomy.py├── collaboration.py├── manager_agent.py├── strategist_agent.py├── researcher_agent.py├── writer_agent.py├── editor_agent.py├── developer_agent.py├── media_agent.py├── image_prompt_agent.py├── automation_agent.py├── trading_agent.py├── real_estate_agent.py├── trust_agent.py├── customer_service_agent.py├── validator_agent.py└── memory_curator_agent.py
+File
+Purpose
+base_agent.py
+Base class all agents inherit from.
+agent_controller.py
+Runs and coordinates agents.
+agent_registry.py
+Loads/saves agent definitions.
+agent_schema.py
+Pydantic schema for agent config.
+agent_factory.py
+Creates new agents from templates/wizards.
+agent_memory.py
+Agent-specific memory access.
+agent_tools.py
+Maps tools available to each agent.
+agent_permissions.py
+Controls agent abilities.
+autonomy.py
+Manual → assisted → semi-autonomous → autonomous.
+collaboration.py
+Multi-agent handoffs and shared outputs.
+manager_agent.py
+Oversees departments/projects.
+strategist_agent.py
+Plans high-level strategy.
+researcher_agent.py
+Gathers and synthesizes knowledge.
+writer_agent.py
+Books, blogs, courses, whitepapers.
+editor_agent.py
+Polishing, consistency, structure.
+developer_agent.py
+Code generation, debugging, architecture.
+media_agent.py
+Image/video/audio planning.
+image_prompt_agent.py
+Stable Diffusion prompt engineering.
+automation_agent.py
+Creates/runs automations.
+trading_agent.py
+Watchlists, analysis, strategy evaluation.
+real_estate_agent.py
+Leads, offers, comp analysis, follow-ups.
+trust_agent.py
+Trust Stack workflows, intake, document prep.
+customer_service_agent.py
+Follow-up scripts, calls, emails, chats.
+validator_agent.py
+Reviews outputs against success criteria.
+memory_curator_agent.py
+Cleans, links, promotes, summarizes memory.
+Agents are described in the V2 system as specialized execution entities with roles, scoped memory, tools, models, task execution, and collaboration. 
+10. Departments
+apollo/departments/├── department_schema.py├── department_manager.py├── department_registry.py├── department_templates.py├── department_goals.py├── department_dashboard.py└── department_workflows.py
+File
+Purpose
+department_schema.py
+Department object schema.
+department_manager.py
+Creates and manages departments.
+department_registry.py
+Stores all departments.
+department_templates.py
+Content, research, development, media, real estate, trust, trading.
+department_goals.py
+Stores department goals/KPIs.
+department_dashboard.py
+Data returned to UI dashboard.
+department_workflows.py
+Workflows assigned to departments.
+11. Project System
+apollo/projects/├── project_schema.py├── project_manager.py├── project_registry.py├── project_state.py├── project_memory.py├── project_summary.py├── project_progress.py├── project_tasks.py├── project_files.py├── project_chats.py├── project_outputs.py├── project_decisions.py└── project_templates.py
+File
+Purpose
+project_manager.py
+Create/update/archive projects.
+project_state.py
+Current progress, active step, status.
+project_memory.py
+Project-scoped memory operations.
+project_summary.py
+Rolling project summaries.
+project_progress.py
+Completion percentages.
+project_tasks.py
+Task list and task graph.
+project_files.py
+Linked files.
+project_chats.py
+Chats tied to project.
+project_outputs.py
+Outputs generated by project.
+project_decisions.py
+Decision log.
+project_templates.py
+Book, course, business, software, content system, real estate deal.
+12. Chat System
+apollo/chats/├── chat_schema.py├── chat_manager.py├── message_store.py├── chat_summarizer.py├── chat_linker.py├── chat_search.py├── chat_importer.py└── chat_exporter.py
+File
+Purpose
+chat_manager.py
+Creates chats under projects, departments, or agents.
+message_store.py
+Stores messages.
+chat_summarizer.py
+Produces chat summaries after sessions.
+chat_linker.py
+Links chats to projects, tasks, decisions, files.
+chat_search.py
+Search chats by topic, project, agent, memory.
+chat_importer.py
+Import old ChatGPT conversations.
+chat_exporter.py
+Export chat packages.
+13. Task System
+apollo/tasks/├── task_schema.py├── task_manager.py├── task_graph.py├── task_queue.py├── task_status.py├── task_assignment.py├── task_dependencies.py├── task_extractor.py└── task_templates.py
+File
+Purpose
+task_manager.py
+CRUD and execution lifecycle for tasks.
+task_graph.py
+Dependency graph.
+task_queue.py
+Background task queue.
+task_status.py
+Pending/running/blocked/failed/completed.
+task_assignment.py
+Assign tasks to agents/departments/nodes.
+task_dependencies.py
+Blocks, depends_on, unlocks.
+task_extractor.py
+Extracts tasks from chats/files.
+task_templates.py
+Reusable task types.
+14. Workflow Engine
+apollo/workflows/├── workflow_schema.py├── workflow_runner.py├── workflow_registry.py├── workflow_builder.py├── workflow_validator.py├── dag_engine.py├── node_executor.py├── approval_gates.py├── retry_policy.py├── workflow_state.py├── workflow_logs.py├── workflow_templates.py├── workflow_import_export.py└── nodes/    ├── trigger_node.py    ├── agent_node.py    ├── model_node.py    ├── memory_node.py    ├── tool_node.py    ├── condition_node.py    ├── wait_node.py    ├── approval_node.py    ├── parallel_node.py    ├── merge_node.py    ├── webhook_node.py    ├── file_node.py    ├── image_node.py    ├── voice_node.py    └── output_node.py
+File
+Purpose
+workflow_schema.py
+Workflow object schema.
+workflow_runner.py
+Executes workflows.
+workflow_registry.py
+Stores reusable workflows.
+workflow_builder.py
+Builds workflows from UI/natural language.
+workflow_validator.py
+Checks graph validity.
+dag_engine.py
+Directed execution graph engine.
+node_executor.py
+Executes each workflow node.
+approval_gates.py
+Human review checkpoints.
+retry_policy.py
+Retry/backoff/fallback logic.
+workflow_state.py
+Tracks run state.
+workflow_logs.py
+Execution logs.
+workflow_templates.py
+Blog pipeline, book pipeline, lead pipeline, image pipeline, etc.
+nodes/*
+Executable node types for visual workflow builder.
+The workflow UI should resemble n8n but customized for agents, departments, RAG, image generation, logic nodes, schedules, and execution history. 
+15. Automation System
+apollo/automations/├── automation_schema.py├── automation_manager.py├── automation_registry.py├── trigger_engine.py├── condition_engine.py├── cron_scheduler.py├── webhook_listener.py├── file_watcher.py├── event_triggers.py├── state_triggers.py├── approval_queue.py├── automation_logs.py└── automation_templates.py
+File
+Purpose
+automation_manager.py
+Creates, enables, disables automations.
+trigger_engine.py
+Detects when automations should run.
+condition_engine.py
+IF/AND/OR logic before executing.
+cron_scheduler.py
+Time-based recurring automation.
+webhook_listener.py
+Receives external webhooks.
+file_watcher.py
+Watches folders for new files.
+event_triggers.py
+Internal event triggers.
+state_triggers.py
+Triggers based on project/task/system state.
+approval_queue.py
+Holds approval-required automation actions.
+automation_logs.py
+Audit log for automation runs.
+automation_templates.py
+Lead intake, daily summary, content posting, memory cleanup, market scan.
+16. Model Router
+apollo/models/├── model_schema.py├── model_registry.py├── model_router.py├── model_selector.py├── model_capabilities.py├── model_health.py├── model_performance.py├── prompt_renderer.py├── lora_manager.py├── qlora_manager.py├── rag_profile_manager.py├── adapters/│   ├── base_adapter.py│   ├── ollama_adapter.py│   ├── lmstudio_adapter.py│   ├── llama_cpp_adapter.py│   ├── vllm_adapter.py│   ├── openai_adapter.py│   ├── anthropic_adapter.py│   ├── stable_diffusion_adapter.py│   ├── automatic1111_adapter.py│   ├── comfyui_adapter.py│   ├── whisper_adapter.py│   └── tts_adapter.py└── profiles/    ├── writing_models.yaml    ├── coding_models.yaml    ├── research_models.yaml    ├── image_models.yaml    └── local_models.yaml
+File
+Purpose
+model_registry.py
+Tracks available local/cloud models.
+model_router.py
+Selects model based on task, agent, privacy, cost, hardware.
+model_selector.py
+Scoring and fallback selection.
+model_capabilities.py
+Defines what each model can do.
+model_health.py
+Checks availability/latency.
+model_performance.py
+Tracks success by task type.
+prompt_renderer.py
+Adapts context packet to model format.
+lora_manager.py
+Loads/assigns LoRAs.
+qlora_manager.py
+QLoRA metadata and future training hooks.
+rag_profile_manager.py
+Associates agents/models with RAG indexes.
+adapters/*
+API wrappers for Ollama, LM Studio, SD, Whisper, etc.
+17. Node Compute Fabric
+apollo/nodes/├── node_schema.py├── node_manager.py├── node_registry.py├── node_router.py├── node_client.py├── heartbeat.py├── resource_monitor.py├── task_queue.py├── load_balancer.py├── environment_manager.py├── worker_runtime.py├── node_security.py└── node_sync.py
+File
+Purpose
+node_manager.py
+Manages compute nodes.
+node_registry.py
+Tracks available machines.
+node_router.py
+Chooses node for task/model.
+node_client.py
+Communicates with worker nodes.
+heartbeat.py
+Online/offline node checks.
+resource_monitor.py
+CPU/RAM/GPU/VRAM usage.
+task_queue.py
+Queue tasks for local or remote nodes.
+load_balancer.py
+Distributes workloads.
+environment_manager.py
+Docker/venv/tmux environments.
+worker_runtime.py
+Runtime for node workers.
+node_security.py
+Node auth/token validation.
+node_sync.py
+Future shared files/model sync.
+Multi-node support can come after the proof of concept, but the architecture includes it from the start so the app does not need to be redesigned later. The V2 system explicitly includes distributed compute and node routing as a major layer. 
+18. Tool Layer
+apollo/tools/├── tool_schema.py├── tool_registry.py├── tool_executor.py├── file_tools.py├── web_tools.py├── code_tools.py├── browser_tools.py├── image_tools.py├── audio_tools.py├── video_tools.py├── spreadsheet_tools.py├── document_tools.py├── email_tools.py├── api_tools.py├── shell_tools.py└── safety.py
+File
+Purpose
+tool_registry.py
+Tracks tools agents can use.
+tool_executor.py
+Executes approved tools.
+file_tools.py
+Read/write/move files.
+web_tools.py
+Web search/retrieval.
+code_tools.py
+Code generation/test execution.
+browser_tools.py
+Browser automation later.
+image_tools.py
+Image operations.
+audio_tools.py
+Audio conversion, voice files.
+video_tools.py
+ffmpeg, clipping, captioning.
+spreadsheet_tools.py
+CSV/XLSX operations.
+document_tools.py
+DOCX/PDF/Markdown export.
+email_tools.py
+Draft/send email with approval.
+api_tools.py
+Generic API requests.
+shell_tools.py
+Local shell execution with restrictions.
+safety.py
+Permission checks before tool calls.
+19. Media / Multimodal Layer
+apollo/media/├── media_manager.py├── image_generation.py├── stable_diffusion.py├── controlnet.py├── lora_profiles.py├── upscaler.py├── image_metadata.py├── prompt_library.py├── video_generation.py├── audio_generation.py├── whisper_transcription.py├── tts_engine.py└── asset_store.py
+File
+Purpose
+media_manager.py
+Central media service.
+image_generation.py
+High-level image workflow.
+stable_diffusion.py
+Stable Diffusion API wrapper.
+controlnet.py
+ControlNet parameters.
+lora_profiles.py
+Character/style LoRA profiles.
+upscaler.py
+Upscale generated images.
+image_metadata.py
+Stores prompts, model, seed, LoRA, output path.
+prompt_library.py
+Reusable visual prompt templates.
+video_generation.py
+Text-to-video/Ken Burns/ffmpeg workflows.
+audio_generation.py
+Music/audio generation hooks.
+whisper_transcription.py
+Speech-to-text.
+tts_engine.py
+Text-to-speech.
+asset_store.py
+Stores media outputs by project/business/agent.
+20. Integrations
+apollo/integrations/├── integration_schema.py├── integration_registry.py├── webhook_client.py├── n8n_client.py├── wordpress_client.py├── substack_client.py├── email_client.py├── aweber_client.py├── leadpages_client.py├── discord_client.py├── telegram_client.py├── social_scheduler.py├── youtube_client.py├── instagram_client.py├── tiktok_client.py├── crm_client.py├── forms_client.py├── trading_api_client.py└── calendar_client.py
+File
+Purpose
+webhook_client.py
+Sends/receives webhook payloads.
+n8n_client.py
+Self-hosted n8n trigger bridge.
+wordpress_client.py
+Blog publishing.
+substack_client.py
+Substack workflow support.
+email_client.py
+Email draft/send with approval gates.
+aweber_client.py
+Email list automation.
+leadpages_client.py
+Form/landing page hooks.
+discord_client.py
+Discord bot/control channel.
+social_scheduler.py
+Social scheduling abstraction.
+youtube_client.py
+Upload/metadata support later.
+instagram_client.py
+Scheduling or API/Puppeteer later.
+tiktok_client.py
+Scheduling/upload workflow later.
+crm_client.py
+Lead/customer records.
+forms_client.py
+Intake forms.
+trading_api_client.py
+Market/trading data/execution integrations.
+calendar_client.py
+Scheduling and reminders.
+21. Business / Domain Modules
+apollo/domains/├── business_ops/│   ├── business_manager.py│   ├── department_planner.py│   ├── goal_tracker.py│   └── kpi_dashboard.py├── content_engine/│   ├── blog_pipeline.py│   ├── book_generator.py│   ├── course_generator.py│   ├── newsletter_pipeline.py│   ├── social_repurposer.py│   └── content_calendar.py├── real_estate/│   ├── lead_intake.py│   ├── deal_analyzer.py│   ├── comp_finder.py│   ├── offer_builder.py│   ├── followup_workflows.py│   └── contract_packet.py├── trusts/│   ├── intake_processor.py│   ├── trust_stack_planner.py│   ├── document_checklist.py│   ├── client_followup.py│   └── compliance_notes.py├── trading/│   ├── market_scanner.py│   ├── indicator_engine.py│   ├── strategy_tester.py│   ├── alert_engine.py│   └── trade_journal.py└── publishing/    ├── docx_exporter.py    ├── pdf_exporter.py    ├── cover_prompt_builder.py    └── publishing_checklist.py
+Folder
+Purpose
+business_ops
+Businesses, departments, goals, KPIs.
+content_engine
+Blog, book, course, newsletter, social content.
+real_estate
+Wholesaling, Sub2, lease options, lead workflows.
+trusts
+Trust Stack intake, document checklists, follow-up.
+trading
+Market scanning, strategy logic, alerts, journal.
+publishing
+DOCX/PDF export, covers, publishing assets.
+22. Optimization / MASS Layer
+apollo/optimization/├── mass_loop.py├── evaluator.py├── scoring.py├── topology_search.py├── prompt_optimizer.py├── retrieval_optimizer.py├── workflow_optimizer.py├── model_optimizer.py├── agent_optimizer.py├── memory_optimizer.py└── experiments.py
+File
+Purpose
+mass_loop.py
+Run → score → adjust → rerun optimization loop.
+evaluator.py
+Evaluates output quality.
+scoring.py
+Accuracy, coherence, usefulness, completion, speed.
+topology_search.py
+Tests agent/workflow topologies.
+prompt_optimizer.py
+Improves prompt templates.
+retrieval_optimizer.py
+Tunes memory retrieval.
+workflow_optimizer.py
+Optimizes workflow steps/order.
+model_optimizer.py
+Learns best model per task.
+agent_optimizer.py
+Learns best agent per task.
+memory_optimizer.py
+Cleans/promotes/prunes memory.
+experiments.py
+A/B tests and evaluations.
+23. Module + Wizard System
+apollo/modules/├── module_schema.py├── module_manager.py├── module_registry.py├── module_installer.py├── module_exporter.py├── marketplace_stub.py└── builtins/    ├── content_module.json    ├── real_estate_module.json    ├── trust_stack_module.json    ├── trading_module.json    └── media_module.jsonapollo/wizards/├── wizard_schema.py├── wizard_engine.py├── wizard_registry.py├── business_wizard.py├── department_wizard.py├── project_wizard.py├── agent_wizard.py├── workflow_wizard.py├── automation_wizard.py├── memory_wizard.py└── node_wizard.py
+File
+Purpose
+module_manager.py
+Installs packaged business systems.
+module_registry.py
+Tracks installed modules.
+module_installer.py
+Creates objects, agents, workflows from modules.
+wizard_engine.py
+Guided creation system.
+business_wizard.py
+Creates business, departments, goals, default agents.
+department_wizard.py
+Creates department and agent team.
+project_wizard.py
+Creates project, tasks, memory scope, workflow.
+agent_wizard.py
+Creates CustomGPT-like agent.
+workflow_wizard.py
+Converts goal into workflow.
+automation_wizard.py
+Creates triggers/conditions.
+memory_wizard.py
+Helps decide what to remember and where.
+node_wizard.py
+Adds a desktop/laptop/worker node.
+The roadmap specifically identifies modules and wizards as a required phase, with module_manager.py and wizard_engine.py as deliverables. 
+24. Security Layer
+apollo/security/├── security_layer.py├── auth.py├── rbac.py├── permissions.py├── secrets_manager.py├── encryption.py├── audit_log.py├── approval_policy.py├── sandbox.py├── privacy.py└── local_sovereignty.py
+File
+Purpose
+security_layer.py
+Central security service.
+auth.py
+Local login/session later.
+rbac.py
+Role-based access control.
+permissions.py
+Agent/tool/workflow permissions.
+secrets_manager.py
+API keys and credentials.
+encryption.py
+Encrypt sensitive storage later.
+audit_log.py
+Logs who/what/when/why.
+approval_policy.py
+Human-in-loop approval rules.
+sandbox.py
+Restricts shell/code execution.
+privacy.py
+Data sensitivity rules.
+local_sovereignty.py
+Local-first rules and cloud restrictions.
+25. API Routes
+apollo/api/├── router.py├── health.py├── chat_routes.py├── object_routes.py├── workspace_routes.py├── project_routes.py├── memory_routes.py├── graph_routes.py├── agent_routes.py├── department_routes.py├── task_routes.py├── workflow_routes.py├── automation_routes.py├── model_routes.py├── node_routes.py├── media_routes.py├── integration_routes.py├── module_routes.py├── wizard_routes.py├── file_routes.py├── output_routes.py└── settings_routes.py
+File
+Purpose
+router.py
+Registers all route files.
+chat_routes.py
+Chat streaming and message endpoints.
+object_routes.py
+Work object CRUD.
+workspace_routes.py
+Workspace management.
+project_routes.py
+Project management.
+memory_routes.py
+Search/save/promote/delete memory.
+graph_routes.py
+Graph visualization/query endpoints.
+agent_routes.py
+Agent CRUD/run endpoints.
+department_routes.py
+Department dashboards.
+task_routes.py
+Task CRUD/assign/run.
+workflow_routes.py
+Workflow builder/run/logs.
+automation_routes.py
+Automation triggers and scheduler.
+model_routes.py
+Model registry/status.
+node_routes.py
+Node status/heartbeat/tasks.
+media_routes.py
+Image/voice/video generation.
+integration_routes.py
+Webhooks and external APIs.
+module_routes.py
+Install/export modules.
+wizard_routes.py
+Guided setup flows.
+file_routes.py
+Upload/index/link files.
+output_routes.py
+Outputs and lineage.
+settings_routes.py
+App/user settings.
+26. Frontend Architecture
+frontend/├── package.json├── next.config.js├── tailwind.config.js├── tsconfig.json├── postcss.config.js├── public/│   ├── logo.svg│   └── icons/└── src/    ├── app/    ├── components/    ├── panels/    ├── features/    ├── hooks/    ├── lib/    ├── stores/    ├── types/    └── styles/
+frontend/src/app/
+src/app/├── layout.tsx├── page.tsx├── globals.css├── chat/│   └── page.tsx├── workspaces/│   └── page.tsx├── projects/│   └── page.tsx├── agents/│   └── page.tsx├── workflows/│   └── page.tsx├── memory/│   └── page.tsx├── media/│   └── page.tsx├── nodes/│   └── page.tsx├── settings/│   └── page.tsx└── api/
+File
+Purpose
+layout.tsx
+Global shell: left panel, center, right panel.
+page.tsx
+Default Apollo command center.
+chat/page.tsx
+Main chat interface.
+workspaces/page.tsx
+Workspace/business management.
+projects/page.tsx
+Project dashboard.
+agents/page.tsx
+Agent builder/list.
+workflows/page.tsx
+Visual workflow builder.
+memory/page.tsx
+Memory explorer.
+media/page.tsx
+Stable Diffusion / media studio.
+nodes/page.tsx
+Node dashboard.
+settings/page.tsx
+App settings.
+27. UI Panels
+frontend/src/panels/├── LeftSidebar.tsx├── CenterWorkspace.tsx├── RightIntelligencePanel.tsx├── TopBar.tsx├── CommandPalette.tsx├── CollapsiblePanel.tsx└── LayoutShell.tsx
+Component
+Purpose
+LeftSidebar.tsx
+ChatGPT-like navigation: New Chat, Search, Library, Businesses, Projects, Departments, Agents.
+CenterWorkspace.tsx
+Main changing work area: chat, doc editor, workflow builder, media studio.
+RightIntelligencePanel.tsx
+Memory used, active agents, model/node, workflow state, logs, files referenced.
+TopBar.tsx
+Workspace/project/model selectors.
+CommandPalette.tsx
+Keyboard/search command launcher.
+CollapsiblePanel.tsx
+Shared collapsible side panel logic.
+LayoutShell.tsx
+Full 3-panel page shell.
+Your UI vision specifically calls for a ChatGPT-like left panel plus a closable right panel showing agent stats, goals, workflows, memory updates, RAG uploads, LoRA/QLoRA stacks, API/webhook builder, queue visualization, dashboards, and access scope controls. 
+28. Frontend Feature Modules
+frontend/src/features/├── chat/│   ├── ChatWindow.tsx│   ├── MessageBubble.tsx│   ├── ChatInput.tsx│   ├── ModelSelector.tsx│   ├── AgentSelector.tsx│   ├── MemoryToggle.tsx│   └── ChatHistory.tsx├── workspaces/│   ├── WorkspaceList.tsx│   ├── WorkspaceCard.tsx│   ├── WorkspaceWizard.tsx│   └── BusinessTree.tsx├── projects/│   ├── ProjectDashboard.tsx│   ├── ProjectTree.tsx│   ├── ProjectProgress.tsx│   ├── ProjectMemoryView.tsx│   ├── ProjectTaskBoard.tsx│   ├── ProjectFiles.tsx│   └── DecisionLog.tsx├── agents/│   ├── AgentBuilder.tsx│   ├── AgentCard.tsx│   ├── AgentList.tsx│   ├── AgentMemory.tsx│   ├── AgentTools.tsx│   ├── AgentPermissions.tsx│   └── AgentActivityLog.tsx├── departments/│   ├── DepartmentDashboard.tsx│   ├── DepartmentTree.tsx│   ├── DepartmentGoals.tsx│   ├── DepartmentAgents.tsx│   └── DepartmentWorkflows.tsx├── memory/│   ├── MemoryExplorer.tsx│   ├── MemorySearch.tsx│   ├── MemoryCard.tsx│   ├── MemoryGraph.tsx│   ├── MemoryScopeFilter.tsx│   ├── MemoryTemperatureFilter.tsx│   ├── MemorySourceViewer.tsx│   └── RememberThisModal.tsx├── workflows/│   ├── WorkflowCanvas.tsx│   ├── WorkflowNodePalette.tsx│   ├── WorkflowInspector.tsx│   ├── WorkflowRunPanel.tsx│   ├── WorkflowLogs.tsx│   ├── WorkflowTemplates.tsx│   └── nodes/│       ├── TriggerNode.tsx│       ├── AgentNode.tsx│       ├── ModelNode.tsx│       ├── ToolNode.tsx│       ├── MemoryNode.tsx│       ├── ConditionNode.tsx│       ├── WaitNode.tsx│       ├── ApprovalNode.tsx│       ├── ParallelNode.tsx│       ├── MergeNode.tsx│       ├── WebhookNode.tsx│       ├── ImageNode.tsx│       └── OutputNode.tsx├── automations/│   ├── AutomationBuilder.tsx│   ├── TriggerPicker.tsx│   ├── ConditionBuilder.tsx│   ├── AutomationList.tsx│   ├── AutomationLogs.tsx│   └── ApprovalQueue.tsx├── media/│   ├── ImageStudio.tsx│   ├── PromptBox.tsx│   ├── LoraSelector.tsx│   ├── ControlNetPanel.tsx│   ├── UpscalePanel.tsx│   ├── ImageGallery.tsx│   ├── VoiceInput.tsx│   └── VideoStudio.tsx├── models/│   ├── ModelRegistry.tsx│   ├── ModelCard.tsx│   ├── ModelRouterView.tsx│   ├── LoraManager.tsx│   └── RagProfileManager.tsx├── nodes/│   ├── NodeDashboard.tsx│   ├── NodeCard.tsx│   ├── ResourceMeters.tsx│   ├── NodeTaskQueue.tsx│   └── NodeSetupWizard.tsx└── settings/    ├── AppSettings.tsx    ├── StorageSettings.tsx    ├── SecuritySettings.tsx    ├── IntegrationSettings.tsx    └── ThemeSettings.tsx
+29. Frontend Libraries / Hooks / Stores
+frontend/src/lib/├── apiClient.ts├── streamClient.ts├── websocket.ts├── routes.ts├── formatters.ts├── validators.ts└── constants.tsfrontend/src/hooks/├── useChat.ts├── useMemory.ts├── useProjects.ts├── useAgents.ts├── useWorkflows.ts├── useAutomations.ts├── useModels.ts├── useNodes.ts└── useRightPanel.tsfrontend/src/stores/├── appStore.ts├── workspaceStore.ts├── projectStore.ts├── chatStore.ts├── memoryStore.ts├── agentStore.ts├── workflowStore.ts├── automationStore.ts├── modelStore.ts├── nodeStore.ts└── uiStore.tsfrontend/src/types/├── objects.ts├── memory.ts├── agents.ts├── workflows.ts├── automations.ts├── models.ts├── nodes.ts├── api.ts└── ui.ts
+30. Config Files
+configs/├── app.yaml├── memory.yaml├── agents.yaml├── departments.yaml├── workflows.yaml├── automations.yaml├── models.yaml├── nodes.yaml├── tools.yaml├── integrations.yaml├── permissions.yaml├── ui.yaml├── modules.yaml└── security.yaml
+File
+Purpose
+app.yaml
+App feature flags.
+memory.yaml
+Memory types, scopes, temperature defaults.
+agents.yaml
+Default agent profiles.
+departments.yaml
+Default departments.
+workflows.yaml
+Built-in workflows.
+automations.yaml
+Built-in automations.
+models.yaml
+Local/cloud model registry.
+nodes.yaml
+Compute nodes.
+tools.yaml
+Tool definitions.
+integrations.yaml
+n8n, email, WordPress, etc.
+permissions.yaml
+Access rules.
+ui.yaml
+UI layout and panel defaults.
+modules.yaml
+Installed modules.
+security.yaml
+Security modes.
+31. Storage Layout
+storage/├── apollo.db├── raw_memory/│   ├── chats/│   ├── files/│   ├── logs/│   └── transcripts/├── summaries/│   ├── projects/│   ├── chats/│   ├── agents/│   ├── workflows/│   └── workspaces/├── vector_db/│   └── chroma/├── graph_db/│   ├── graph.json│   └── edges.jsonl├── files/│   ├── uploads/│   ├── documents/│   ├── datasets/│   └── imports/├── outputs/│   ├── text/│   ├── docs/│   ├── images/│   ├── video/│   ├── audio/│   ├── code/│   └── reports/├── media/│   ├── stable_diffusion/│   ├── loras/│   ├── controlnet/│   └── prompts/├── logs/│   ├── backend/│   ├── agents/│   ├── workflows/│   ├── automations/│   ├── models/│   └── nodes/├── backups/└── cache/
+32. Data Layout
+data/├── seed/│   ├── default_agents.json│   ├── default_departments.json│   ├── default_workflows.json│   ├── default_models.json│   └── default_modules.json├── datasets/│   ├── jsonl/│   ├── csv/│   ├── docs/│   └── pdfs/├── rag_indexes/├── fine_tuning/│   ├── lora_datasets/│   ├── qlora_configs/│   └── training_runs/└── imports/    ├── chatgpt_exports/    ├── google_docs/    └── local_files/
+33. Scripts
+scripts/├── init_db.py├── seed_defaults.py├── ingest_folder.py├── ingest_chatgpt_export.py├── rebuild_vector_index.py├── rebuild_graph_index.py├── summarize_project.py├── run_worker.py├── run_scheduler.py├── test_model_connection.py├── test_stable_diffusion.py├── backup_storage.py├── restore_storage.py├── create_module.py└── dev_reset.py
+34. Tests
+tests/├── unit/│   ├── test_objects.py│   ├── test_memory.py│   ├── test_graph.py│   ├── test_context_packet.py│   ├── test_agents.py│   ├── test_workflows.py│   ├── test_models.py│   └── test_nodes.py├── integration/│   ├── test_chat_flow.py│   ├── test_file_ingestion.py│   ├── test_workflow_run.py│   ├── test_automation_trigger.py│   ├── test_model_routing.py│   └── test_media_generation.py├── e2e/│   ├── test_whitepaper_demo.py│   ├── test_blog_pipeline.py│   └── test_lead_intake_pipeline.py└── fixtures/    ├── sample_project.json    ├── sample_agent.json    ├── sample_workflow.json    └── sample_doc.txt
+The V2 roadmap explicitly calls for unit tests, integration tests, and system tests as part of the development strategy. 
+35. Examples
+examples/├── first_demo/│   ├── whitepaper_project.json│   ├── writer_agent.json│   └── continue_section_workflow.json├── content_engine/│   ├── blog_workflow.json│   ├── social_repurpose_workflow.json│   └── newsletter_workflow.json├── real_estate/│   ├── lead_intake_workflow.json│   ├── wholesale_analysis_workflow.json│   └── followup_automation.json├── trust_stack/│   ├── client_intake_workflow.json│   └── document_checklist_workflow.json├── media/│   ├── image_generation_workflow.json│   ├── lora_profile.json│   └── video_short_workflow.json└── trading/    ├── market_scan_workflow.json    └── alert_workflow.json
+36. First Working Demo Path
+The first demo must prove the core thesis. The V2 file says the first demo should let the user say: “Write the next section of the ApolloGPT whitepaper,” then the system detects the project, retrieves project memory, builds a context packet, assigns Writer Agent, routes to local model, generates output, saves output, updates progress, and suggests the next section. 
+Demo Files Needed
+examples/first_demo/├── whitepaper_project.json├── whitepaper_memory_seed.md├── writer_agent.json├── continue_whitepaper_workflow.json└── expected_output.md
+Demo Flow
+User: “Write the next section of the ApolloGPT whitepaper.”1. chat_routes.py receives message.2. orchestrator.py starts request.3. object_resolver.py finds ApolloGPT Whitepaper project.4. task_router.py classifies as writing/project-continuation.5. memory_manager.py retrieves project summary + prior sections.6. graph_service.py retrieves linked outline, decisions, files.7. context_packet_builder.py builds packet.8. agent_controller.py assigns Writer Agent.9. model_router.py selects local LLaMA/Mistral.10. workflow_runner.py runs writing workflow.11. output_service.py saves section.12. memory_manager.py updates summary/progress.13. project_progress.py marks section complete.14. UI right panel shows memory/model/agent/workflow.
+37. Final Build Priority
+MVP First
+apollo/app.pyapollo/settings.pyapollo/db/database.pyapollo/objects/object_service.pyapollo/memory/memory_manager.pyapollo/memory/ingestion_pipeline.pyapollo/memory/vector_memory.pyapollo/graph/graph_service.pyapollo/context/packet_builder.pyapollo/agents/base_agent.pyapollo/agents/agent_controller.pyapollo/models/model_router.pyapollo/models/adapters/ollama_adapter.pyapollo/workflows/workflow_runner.pyapollo/api/chat_routes.pyfrontend/src/panels/*frontend/src/features/chat/*frontend/src/features/projects/*frontend/src/features/memory/*
+Then Add
+Workflow canvasAutomation systemStable Diffusion media studioAgent builderDepartment dashboardNode dashboardModules + wizardsMASS optimization
+38. Final Architecture Sentence
+ApolloGPT becomes buildable when every major idea has a place in the file system: backend engine, object system, memory system, context packets, agents, workflows, automations, model routing, node compute, state engine, tool layer, media layer, ingestion, retrieval, optimization, modules, wizards, security, API, frontend, storage, configs, scripts, and tests. That exact framing is already stated in the V2 file manifest conclusion.

@@ -1,0 +1,11 @@
+providers:
+  - ollama
+  - lmstudio
+  - vllm
+  - textgen-webui
+  - koboldcpp
+  - localai
+roles:
+  default: mistral
+  reasoning: llama3
+  coding: deepseek-coder

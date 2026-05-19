@@ -1,0 +1,301 @@
+﻿ApolloGPT UI/UX Interaction Flows
+Full System Flow Specification
+ApolloGPT’s UI is not just a chat screen. It is the control surface for a memory-centric intelligence operating system. The V2 structure defines the interface around three layers: Left Panel = Structure, Center Panel = Execution, and Right Panel = Intelligence State. 
+1. Core UI Philosophy
+ApolloGPT’s interface must make four things constantly visible:
+Where am I working?Workspace, area, project, department, chat, task. 
+What does Apollo know?Memory used, files retrieved, linked chats, prior decisions. 
+Who is doing the work?Agent, department, model, node, workflow. 
+What happens next?Current task, next task, automation, workflow progress, unfinished work. 
+The interface must feel like:
+ChatGPT + Notion + n8n + Agent Dashboard + Local AI Studio
+2. Master Layout Flow
+┌─────────────────────┬──────────────────────────────┬────────────────────────────┐│ LEFT PANEL          │ CENTER PANEL                 │ RIGHT PANEL                ││ Structure Layer     │ Execution Layer              │ Intelligence Layer         │├─────────────────────┼──────────────────────────────┼────────────────────────────┤│ Workspaces          │ Chat                         │ Context Packet             ││ Areas               │ Documents                    │ Memory Used                ││ Projects            │ Workflow Builder             │ Active Agents              ││ Departments         │ Media Studio                 │ Model / Node Used          ││ Agents              │ Code Editor                  │ Workflow State             ││ Workflows           │ Task Board                   │ Logs                       ││ Automations         │ Output Viewer                │ Next Actions               ││ Memory              │                              │ Tools                      │└─────────────────────┴──────────────────────────────┴────────────────────────────┘
+3. Left Panel — Structure Layer
+Purpose
+The Left Panel is themap of the intelligence system.
+It shows:
+New ChatSearchLibraryWorkspacesBusinessesAreasDepartmentsProjectsChatsAgentsWorkflowsAutomationsMemoryFilesModelsNodes
+Left Panel UX Flow
+User Action
+User clicks:
++ New Workspace
+UI Response
+Apollo opens:
+Workspace Creation Wizard
+User Chooses
+Workspace Type:- Business- Personal System- Research Lab- Publishing System- Real Estate Operation- Trading Desk- AI Development Project
+Apollo Creates
+Workspace ObjectDefault AreasDefault Agent SuggestionsDefault Memory ScopeStarter Workflow Templates
+4. Workspace Creation Flow
+Flow Name
+Create New Workspace
+User clicks + Workspace↓Wizard opens↓User enters name + purpose↓Apollo suggests Areas↓User confirms↓Apollo creates Workspace object↓Apollo creates memory scope↓Apollo creates dashboard↓Apollo suggests first projects
+Example
+User enters:
+Sterling Trust Services
+Apollo suggests:
+Areas:- Client Intake- Document Preparation- Marketing- Automation- Compliance Notes- Customer Follow-UpAgents:- Intake Agent- Trust Structuring Agent- Document Agent- Follow-Up Agent- Marketing AgentWorkflows:- New Client Intake- Trust Stack Planning- Document Checklist- Follow-Up Sequence
+UX Benefit
+A business idea becomes a structured operating environment in minutes.
+5. Business Creation Flow
+Flow Name
+Business-in-a-Box Setup
+Business Idea↓Business Wizard↓Department Generator↓Agent Generator↓Workflow Generator↓Memory Scope Creation↓Dashboard Creation
+User Input
+I want to create an AI-powered real estate wholesaling business.
+Apollo Response
+Apollo asks:
+What kind of business is this?- Real estate- Content- Service business- SaaS- Education- Trading- Publishing
+Then:
+What is the main goal?- Lead generation- Sales- Client fulfillment- Content publishing- Research- Automation
+Apollo Creates
+Workspace: AI Real Estate WholesalingDepartments:- Lead Generation- Seller Follow-Up- Deal Analysis- Buyer Outreach- Contracts- MarketingAgents:- Lead Intake Agent- Seller Follow-Up Agent- Deal Analyzer Agent- Contract Prep Agent- Buyer List Agent- Marketing AgentWorkflows:- New Lead Intake- Property Analysis- Offer Creation- Follow-Up Automation- Buyer Blast
+6. Department Creation Flow
+Flow Name
+Create Department
+User clicks + Department↓Department Wizard opens↓User selects function↓Apollo suggests agents↓Apollo suggests workflows↓Apollo creates department dashboard
+Department Form
+Department NamePurposeParent WorkspaceGoalsAgents NeededMemory ScopeDefault WorkflowsAutomation Level
+Example
+Department: Content DepartmentPurpose: Create blogs, newsletters, social posts, courses, books.
+Apollo suggests:
+Agents:- Content Manager- Research Agent- Longform Writer- Editor- Social Repurposer- SEO Agent- Image Prompt AgentWorkflows:- Blog Creation Pipeline- Newsletter Pipeline- Course Lesson Pipeline- Social Repurpose Pipeline
+7. Agent Creation Flow
+Flow Name
+Create Agent / Digital Worker
+User clicks + Agent↓Agent Builder opens↓User selects role↓Apollo suggests model↓Apollo suggests memory access↓Apollo suggests tools↓User confirms↓Agent is saved
+Agent Builder Sections
+1. Identity2. Role3. Department4. Model Preference5. Memory Access6. Tool Access7. Autonomy Level8. Workflow Permissions9. Style / LoRA / Persona10. Output Rules
+Agent Example
+{  "name": "Whitepaper Architect Agent",  "role": "Technical architecture writer",  "department": "Documentation",  "model_preference": ["llama3", "deepseek", "mistral"],  "memory_access": ["project", "workspace", "agent"],  "tools": ["rag", "graph_search", "document_builder"],  "autonomy_level": 3,  "permissions": {    "create_tasks": true,    "run_workflows": true,    "external_actions": false  }}
+8. Agent Customization Flow
+Purpose
+The user should be able to make agents as easily as CustomGPTs, but deeper.
+Flow
+Open Agent↓Edit Role↓Select Model↓Select RAG Memory↓Select LoRA / Style↓Assign Tools↓Assign Department↓Set Autonomy↓Save
+UI Tabs
+ProfileInstructionsMemoryToolsModelsLoRA / StyleWorkflowsPermissionsLogsPerformance
+9. Agent Team Flow
+Flow Name
+Assign Goal to Department
+User opens Department↓Clicks "Assign Goal"↓Types goal↓Manager Agent decomposes goal↓Tasks are created↓Agents are assigned↓Workflow is generated↓Right Panel shows active execution
+Example Goal
+Create a complete 12-post content campaign for LifeTree Property Solutions.
+Apollo decomposes:
+Research Agent → identify seller pain pointsWriter Agent → create post draftsImage Agent → create visual promptsEditor Agent → polish postsScheduler Agent → prepare publishing calendarManager Agent → track completion
+10. Project Creation Flow
+Flow Name
+Create Project
+User clicks + Project↓Project Wizard opens↓User enters goal↓Apollo classifies project type↓Apollo creates project object↓Apollo creates memory scope↓Apollo suggests tasks↓Apollo suggests agents↓Apollo suggests workflows
+Example
+Project: ApolloGPT Technical WhitepaperGoal: Condense 607 pages into 30–45 page technical whitepaper.
+Apollo creates:
+Project SummarySection OutlineTask ListWriter AgentTechnical Architect AgentValidator AgentDocument WorkflowMemory ScopeDecision Log
+11. Project Dashboard Flow
+Project Dashboard Displays
+Project NameGoalStatusProgress %Open TasksCompleted TasksLinked ChatsLinked FilesAssigned AgentsActive WorkflowsDecision LogMemory SummaryNext ActionsOutputs
+User Can Click
+Continue ProjectSummarize ProjectShow Related ChatsShow Memory UsedRun WorkflowAssign AgentCreate TaskOpen DocumentExport Output
+12. Chat Flow
+Flow Name
+Project-Aware Chat
+User opens project↓Starts chat↓Chat inherits project memory↓User asks question↓Apollo builds context packet↓Agent/model executes↓Output appears↓Chat is saved↓Important memory extracted↓Tasks/decisions suggested
+Example
+User:
+Continue the ApolloGPT whitepaper.
+Apollo:
+1. Detects active project.2. Retrieves project outline.3. Retrieves prior sections.4. Retrieves style rules.5. Selects Writer Agent.6. Routes model.7. Generates next section.8. Saves output.9. Updates project progress.10. Suggests next section.
+13. Chat Linking Flow
+Purpose
+Chats must never be isolated.
+Flow
+New chat created↓Apollo detects topic/project↓Suggests link↓User approves or changes↓Chat is linked to project/department/task↓Chat summary enters memory↓Graph edge is created
+Example
+Apollo says:
+This chat appears related to:Project: ApolloGPT UI DesignDepartment: DevelopmentTopic: Right Panel Intelligence LayerLink this chat?[Yes] [Change Project] [Do Not Link]
+14. Memory Save Flow
+Flow Name
+Remember This
+User highlights text or says "Remember this"↓Memory modal opens↓User chooses memory type↓User chooses scope↓Apollo saves, embeds, summarizes, links
+Modal
+What is this?- Knowledge- Decision- Task- Preference- Procedure- Source- OutputWhere should it live?- Session- Project- Department- Workspace- Global- AgentHow should it be used?- Reference- Template- Workflow Input- Agent Instruction- Automation Trigger
+15. Memory Retrieval Flow
+Flow Name
+Show What Apollo Used
+User receives output↓Right Panel shows Memory Used↓User expands memory cards↓User sees source chat/file/summary↓User can remove, pin, replace, or promote memory
+Memory Card Shows
+TitleSourceScopeTypeTemperatureRelevance ScoreLinked ObjectsUsed In Context Packet?
+Actions
+PinRemovePromoteArchiveOpen SourceLink to ProjectUse Again
+16. Memory Explorer Flow
+Purpose
+Memory Explorer is the “brain browser.”
+User Can Search
+Show all decisions about ApolloGPT UI.Show all memory connected to LifeTree.Show all unfinished book projects.Show all chats linked to Stable Diffusion.Show all workflows using Writer Agent.
+Filters
+WorkspaceProjectDepartmentAgentTaskMemory TypeTemperatureDateImportanceSourceStatus
+17. Knowledge Graph Flow
+Flow Name
+Bird’s-Eye Memory Graph
+User opens Project Graph↓Graph loads nodes and edges↓User clicks node↓Right Panel shows object details↓User follows relationship↓User can create/edit/delete links
+Graph Nodes
+ProjectChatFileDecisionTaskAgentWorkflowOutputMemory
+Relationship Examples
+Chat → produced → DecisionDecision → affects → WorkflowTask → assigned_to → AgentOutput → derived_from → FileWorkflow → created → Output
+18. Document Builder Flow
+Flow Name
+Longform Writing Mode
+User opens Document Mode↓Selects project document↓Left side shows outline↓Center shows editor↓Right shows memory/context/agents↓User asks Apollo to write section↓Apollo uses project memory↓Output appears in document↓Version saved
+Document UI
+Outline PanelEditor CanvasVersion HistorySection StatusMemory UsedAgent NotesExport Buttons
+Actions
+Write SectionExpand SectionRewriteEdit ToneCite SourcesGenerate SummaryExport DOCXExport PDFCreate Social Posts
+19. Workflow Builder Flow
+Flow Name
+n8n-Style Native Workflow Builder
+User opens Workflow Builder↓Drag trigger node↓Add agent node↓Add memory retrieval node↓Add condition node↓Add output node↓Save workflow↓Run manually or attach automation
+Node Types
+TriggerMemory RetrievalAgentModelToolConditionWaitApprovalWebhookFileImageVoiceParallelMergeOutput
+Example Workflow
+New Blog Idea→ Retrieve Project Memory→ Research Agent→ Writer Agent→ Editor Agent→ Image Prompt Agent→ Approval Gate→ Save Draft
+20. Workflow Run Flow
+Workflow starts↓Right Panel shows live run↓Each node changes status↓Outputs appear in Center Panel↓Failures show retry options↓Completed outputs save to project↓Memory updates automatically
+Node Status
+PendingRunningWaitingNeeds ApprovalFailedRetryingCompletedSkipped
+21. Automation Creation Flow
+Flow Name
+Create Automation
+User clicks + Automation↓Chooses trigger↓Chooses conditions↓Chooses workflow↓Chooses memory scope↓Chooses approval rules↓Saves automation
+Trigger Options
+ScheduleWebhookFile UploadNew ChatTask CompletedProject StaleMemory UpdatedModel FinishedManual Trigger
+Example
+Every Monday at 9 AM→ Generate 3 blog post ideas→ Use Nest Egg Success memory→ Assign Writer Agent→ Save drafts→ Ask for approval before publishing
+22. Automation Dashboard Flow
+Dashboard shows:
+Active AutomationsPaused AutomationsLast RunNext RunSuccess RateFailuresApproval QueueLogs
+User actions:
+Run NowPauseEditDuplicateView LogsApprove PendingDisable
+23. Media Studio Flow
+Flow Name
+Stable Diffusion / SDXL Generation
+User opens Media Studio↓Selects project↓Chooses image type↓Selects model↓Selects LoRA/style↓Adds prompt↓Optional ControlNet input↓Generates image↓Saves output to project↓Memory records prompt/model/seed
+UI Sections
+Prompt BoxNegative PromptModel SelectorLoRA SelectorControlNet PanelResolutionSeedBatch CountUpscalerOutput GallerySave to ProjectUse in Workflow
+Output Metadata
+PromptModelLoRASeedSettingsProjectAgentDateLinked Task
+The architecture files already include SDXL, LoRA, ControlNet, prompt generation, project folder saving, and auto-publishing as part of the image capability plan. 
+24. LoRA / Style Selection Flow
+User selects Agent or Media Task↓LoRA panel opens↓User chooses:- Character LoRA- Style LoRA- Brand Voice- Writing Tone- Visual Style↓Apollo applies to agent/model/media output↓Selection saved as profile
+Example
+Agent: Sterling Epoch WriterStyle: Institutional editorialMemory: Sterling Epoch project memoryModel: LLaMA 3LoRA/Profile: Natalie Cross voice
+25. Model Routing Visibility Flow
+Purpose
+User should know which model is being used.
+Right Panel Shows
+Model Used: LLaMA 3 8BReason: Longform writing taskFallback: Mistral 7BPrivacy: LocalNode: RTX 4070 SuperMemory Size: 6 chunksToken Budget: 7,500
+User Can Override
+Use DeepSeek insteadUse cloud modelUse faster modelUse local onlyUse best quality
+26. Node Dashboard Flow
+Flow Name
+Compute Visibility
+User opens Nodes↓Dashboard shows machines↓Each node shows resources↓User sees loaded models↓User can assign workload
+Node Card
+Node NameStatusCPURAMGPUVRAMModels LoadedCurrent TasksQueueTemperatureHealth
+27. Task Board Flow
+Flow Name
+Project Execution Board
+User opens Task Board↓Sees columns↓Drags tasks↓Assigns agents↓Runs workflows↓Tracks progress
+Columns
+InboxPlannedReadyRunningBlockedNeeds ReviewCompletedArchived
+Task Card
+Task NameProjectAssigned AgentWorkflowDue DateStatusMemory AttachedOutput Attached
+28. Output Handling Flow
+Flow Name
+Every Output Becomes Reusable
+Agent produces output↓Output displayed↓Apollo asks how to store it↓Output saved as object↓Linked to task/project/chat↓Summary generated↓Reusable actions appear
+Actions
+Save to ProjectTurn into TaskTurn into WorkflowExportCreate Social PostsGenerate ImageSend to Editor AgentArchive
+29. Approval Gate Flow
+Purpose
+High-risk actions need user approval.
+Approval Required For
+Send emailPublish postDelete memoryExternal API callFinancial actionPublic uploadLarge batch generationWorkflow with external consequences
+Flow
+Agent requests action↓Right Panel shows approval card↓User reviews↓Approve / Reject / Edit↓Workflow continues or stops
+30. Search Flow
+Global Search
+Search bar can find:
+ChatsProjectsTasksFilesAgentsWorkflowsOutputsMemoryModelsNodesDecisions
+Search Modes
+KeywordSemanticGraphTimelineProject-onlyGlobal
+31. Onboarding Flow
+First Launch
+Welcome to ApolloGPT↓Choose mode:- Personal AI OS- Business OS- Content Engine- Research Lab- Developer System- Real Estate System↓Connect local model↓Create first workspace↓Create first project↓Create first agent↓Run first workflow
+32. Beginner vs Advanced Mode
+Beginner Mode
+Shows:
+ChatProjectsMemoryAgentsBasic workflowsSimple buttons
+Advanced Mode
+Shows:
+Context packetsGraph memoryNode routerModel routingWorkflow DAGExecution logsPermissions
+33. Right Panel Interaction Flow
+The Right Panel is the most important differentiator.
+Tabs
+ContextMemoryAgentsWorkflowModelsNodesLogsToolsNext Actions
+Context Tab
+Shows:
+Current TaskContext PacketConstraintsOutput FormatSuccess Criteria
+Memory Tab
+Shows:
+Hot MemoryWarm MemoryCold Memory RetrievedPinned MemoryExcluded Memory
+Agents Tab
+Shows:
+Active AgentSupporting AgentsAgent StatusAgent NotesAgent Handoff
+Workflow Tab
+Shows:
+Current WorkflowCurrent NodeProgressErrorsRetry Controls
+Next Actions Tab
+Shows:
+Continue sectionCreate taskRun workflowAssign agentUpdate memoryExport output
+34. “Continue Where I Left Off” Flow
+This is a flagship flow.
+User opens Apollo↓Apollo shows active projects↓User clicks project↓Apollo loads warm memory↓Apollo shows:- Last activity- Current progress- Open tasks- Next recommended action↓User clicks Continue↓Apollo executes next task
+Example:
+ApolloGPT WhitepaperProgress: 61%Last Completed: UI/UX ArchitectureNext Suggested: Memory Explorer UXAssigned Agent: Technical Writer[Continue]
+35. “Turn Chat Into Project” Flow
+User has useful chat↓Clicks Convert to Project↓Apollo summarizes chat↓Extracts goals/tasks/files/decisions↓Creates project↓Links original chat↓Creates next actions
+36. “Turn Output Into Workflow” Flow
+User generates repeated process↓Clicks Convert to Workflow↓Apollo detects steps↓Builds workflow draft↓Shows workflow canvas↓User edits↓Saves template
+Example:
+Output: Blog creation process↓Workflow:Topic → Research → Outline → Draft → Edit → Image → Schedule
+37. “Create Business From Idea” Flow
+User: I want to start a faceless AI content agency.↓Apollo creates workspace.↓Apollo proposes departments.↓Apollo creates manager agents.↓Apollo creates worker agents.↓Apollo creates core workflows.↓Apollo creates first 7-day action plan.↓Apollo shows business dashboard.
+This is one of ApolloGPT’s killer UX flows.
+38. “Department Executes Goal” Flow
+User assigns goal to department.↓Department Manager Agent decomposes goal.↓Tasks created.↓Worker agents assigned.↓Workflow built or selected.↓Execution begins.↓Right Panel monitors.↓Outputs saved.↓Department memory updated.
+39. “Memory Correction” Flow
+User sees wrong memory used.↓Clicks memory card.↓Chooses:- Remove from context- Mark outdated- Correct summary- Change scope- Delete↓Apollo updates memory index.↓Context packet rebuilds.↓Task reruns if needed.
+40. “Proactive Intelligence” Flow
+Apollo detects stale project↓Right Panel suggests action:"This project has 4 unfinished tasks."↓User clicks Review↓Apollo shows tasks↓User assigns workflow↓Agents execute
+41. “Multi-Agent Parallel Work” Flow
+User requests large output↓Apollo decomposes into subtasks↓Multiple agents work in parallel↓Each output appears as cards↓Validator merges results↓Final output assembled
+Example:
+Create full course:Research Agent → module researchWriter Agent → lessonsWorksheet Agent → activitiesMedia Agent → graphicsEditor Agent → polish
+42. “File Upload to Memory” Flow
+User uploads file↓Apollo asks scope:- Current Chat- Project- Department- Workspace- Global↓Apollo indexes file↓Creates summary↓Extracts tasks/decisions/entities↓Links file to objects↓Shows memory card
+The earlier Apollo notes specify a Project Memory Panel where uploads can be embedded, searched, shown, refreshed, and injected into prompts. 
+43. “Export / Publish” Flow
+User clicks Export↓Selects format:- Markdown- DOCX- PDF- HTML- JSON↓Apollo generates file↓Saves output object↓Links to project↓Optional workflow:- Send to WordPress- Send to Substack- Send to n8n
+44. UI State Persistence
+Apollo should remember:
+Last opened workspaceLast projectOpen panelsPinned memorySelected modelSelected agentActive workflowDraft contentUnfinished tasks
+45. MVP UI Build Order
+Build in this order:
+1. 3-panel layout2. Chat mode3. Project selector4. Memory viewer5. Agent selector6. Model selector7. Project dashboard8. Task board9. Workflow runner10. Workflow builder11. Agent builder12. Automation builder13. Media studio14. Graph memory view15. Node dashboard
+Final UX Thesis
+ApolloGPT’s UI must make the invisible parts of AI visible:
+MemoryContextAgentsModelsNodesWorkflowsTasksDecisionsOutputsNext Actions
+That is the difference.
+ChatGPT shows a conversation.
+ApolloGPT shows an operating system for intelligence.

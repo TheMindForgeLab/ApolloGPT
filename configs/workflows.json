@@ -1,0 +1,27 @@
+{
+  "templates": {
+    "content_pipeline": [
+      "Research topic",
+      "Retrieve project memory",
+      "Draft content",
+      "Validate quality",
+      "Store final output"
+    ],
+    "coding_task": [
+      "Analyze request",
+      "Inspect project context",
+      "Plan files",
+      "Implement change",
+      "Validate imports/tests",
+      "Store implementation notes"
+    ],
+    "automation_design": [
+      "Define trigger",
+      "Define conditions",
+      "Select workflow",
+      "Set approval policy",
+      "Prepare n8n/webhook handoff"
+    ]
+  }
+}
+

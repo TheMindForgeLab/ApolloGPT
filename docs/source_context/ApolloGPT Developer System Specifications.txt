@@ -1,0 +1,224 @@
+﻿ApolloGPT Developer System Specification
+Local-First, Memory-Centric, Multi-Agent Intelligence Operating System
+This spec translates ApolloGPT from whitepaper concept into a developer-buildable system. It treats ApolloGPT as a real modular software platform: backend services, memory layers, object graph, agents, workflows, model routing, local automation, multimodal tools, UI, node compute, security, and phased implementation.
+The source architecture defines ApolloGPT as a unified system that “organizes, remembers, executes, and evolves,” with the foundational equation Memory + Objects + Agents + Workflows + Models + Nodes + UI = A Persistent Intelligence System. The same V2 structure frames the system around object-based intelligence, multi-layer memory, context packets, agent orchestration, workflow automation, multi-model routing, distributed nodes, and a 3-panel interface. 
+1. System Goal
+ApolloGPT must solve one core problem:
+Turn scattered chats, files, ideas, tasks, agents, models, and workflows into one connected intelligence system that can remember, organize, execute, and improve.
+The system must be able to:
+Create workspaces, areas, departments, projects, agents, workflows, files, tasks, outputs, and memories as structured objects. 
+Link chats, files, outputs, decisions, tasks, and workflows together. 
+Build context packets from memory instead of dumping raw chat history into a model. 
+Route tasks to the correct agent, model, tool, workflow, and compute node. 
+Run locally first, with optional cloud escalation. 
+Scale from one laptop to multiple machines. 
+Provide a UI where the user can see projects, memory, agents, workflows, active tasks, files, and model/node usage. 
+2. Core Design Principles
+2.1 Memory-first, not model-first
+Models are processors. Memory is the operating substrate. The whitepaper repeatedly distinguishes ApolloGPT from chat-based AI by treating memory as persistent, structured knowledge rather than temporary prompt context. 
+2.2 Objects replace isolated chats
+Every major item becomes a Work Object:
+WorkspaceAreaDepartmentProjectChatFileTaskAgentWorkflowAutomationOutputDecisionMemoryModelNodeModuleWizard
+2.3 Context packets replace raw prompts
+Instead of sending “everything” to a model, ApolloGPT builds a precise packet:
+TaskIntentAgent RoleRelevant MemoryRelated ObjectsProject StateWorkflow StateConstraintsToolsOutput FormatSuccess Criteria
+The context packets are structured inputs containing task definition, agent role, relevant memory, system state, constraints, tools, and workflow position. 
+2.4 Agents are workers, not prompts
+Agents are persistent execution entities with memory scope, tool permissions, model preferences, workflows, and performance history.
+2.5 Workflows turn intelligence into execution
+ApolloGPT must not only answer. It must execute repeatable processes: content generation, research synthesis, code creation, real estate lead handling, trust stack intake, image generation, scheduling, trading analysis, and more.
+2.6 Nodes let the system scale
+A node can be a laptop, desktop, GPU machine, media machine, embedding server, voice server, or cloud fallback. 
+3. High-Level Runtime Flow
+User Input / Trigger / Webhook / Schedule        ↓API Gateway / App Entry        ↓Object Resolver        ↓Task Router        ↓Memory Scope Resolver        ↓Hybrid Memory Retrieval        ↓Context Packet Builder        ↓Agent Controller        ↓Model Router        ↓Node Router        ↓Workflow Runner / Tool Executor        ↓Output Aggregator        ↓Validator        ↓Memory Update Loop        ↓UI State Update        ↓Response / File / Post / Automation / Task
+4. Repository Structure
+ApolloGPT/├── README.md├── LICENSE├── requirements.txt├── pyproject.toml├── .env.example├── .gitignore├── docker-compose.yml├── Dockerfile├── setup.md├── start_backend.bat├── start_frontend.bat├── start_worker.bat├── start_scheduler.bat│├── apollo/│   ├── __init__.py│   ├── app.py│   ├── settings.py│   ├── dependencies.py│   └── constants.py│├── apollo/core/│   ├── orchestrator.py│   ├── task_router.py│   ├── object_resolver.py│   ├── context_packet_builder.py│   ├── event_bus.py│   ├── scheduler.py│   ├── permissions.py│   ├── telemetry.py│   └── errors.py│├── apollo/objects/│   ├── schemas.py│   ├── registry.py│   ├── object_service.py│   ├── relationship_service.py│   └── lifecycle.py│├── apollo/memory/│   ├── memory_manager.py│   ├── raw_memory.py│   ├── vector_memory.py│   ├── graph_memory.py│   ├── summary_memory.py│   ├── procedural_memory.py│   ├── episodic_memory.py│   ├── preference_memory.py│   ├── execution_memory.py│   ├── memory_scopes.py│   ├── memory_temperature.py│   ├── ingestion_pipeline.py│   ├── chunker.py│   ├── embedder.py│   ├── reranker.py│   └── summarizer.py│├── apollo/agents/│   ├── base_agent.py│   ├── agent_controller.py│   ├── agent_registry.py│   ├── agent_memory.py│   ├── autonomy.py│   ├── manager_agent.py│   ├── researcher_agent.py│   ├── writer_agent.py│   ├── developer_agent.py│   ├── media_agent.py│   ├── automation_agent.py│   ├── trading_agent.py│   └── validator_agent.py│├── apollo/departments/│   ├── department_manager.py│   ├── department_registry.py│   └── department_templates.py│├── apollo/workflows/│   ├── workflow_runner.py│   ├── workflow_registry.py│   ├── workflow_schema.py│   ├── dag_engine.py│   ├── node_executor.py│   ├── approval_gates.py│   ├── retry_policy.py│   └── workflow_templates/│├── apollo/automations/│   ├── automation_manager.py│   ├── trigger_engine.py│   ├── condition_engine.py│   ├── cron_scheduler.py│   ├── webhook_listener.py│   ├── file_watcher.py│   └── automation_registry.py│├── apollo/models/│   ├── model_router.py│   ├── model_registry.py│   ├── adapters/│   │   ├── ollama_adapter.py│   │   ├── lmstudio_adapter.py│   │   ├── llama_cpp_adapter.py│   │   ├── vllm_adapter.py│   │   ├── openai_adapter.py│   │   ├── stable_diffusion_adapter.py│   │   ├── whisper_adapter.py│   │   └── tts_adapter.py│   └── performance_tracker.py│├── apollo/nodes/│   ├── node_manager.py│   ├── node_registry.py│   ├── node_router.py│   ├── heartbeat.py│   ├── resource_monitor.py│   ├── task_queue.py│   └── node_client.py│├── apollo/tools/│   ├── file_tools.py│   ├── web_tools.py│   ├── code_tools.py│   ├── browser_tools.py│   ├── image_tools.py│   ├── spreadsheet_tools.py│   └── api_tools.py│├── apollo/integrations/│   ├── n8n_client.py│   ├── webhook_client.py│   ├── wordpress_client.py│   ├── email_client.py│   ├── discord_client.py│   ├── social_scheduler.py│   └── crm_client.py│├── apollo/optimization/│   ├── mass_loop.py│   ├── evaluator.py│   ├── scoring.py│   ├── topology_search.py│   ├── prompt_optimizer.py│   ├── retrieval_optimizer.py│   └── workflow_optimizer.py│├── frontend/│   ├── package.json│   ├── src/│   │   ├── app/│   │   ├── components/│   │   ├── panels/│   │   ├── workflow_builder/│   │   ├── memory_explorer/│   │   ├── project_dashboard/│   │   ├── agent_console/│   │   └── api/│   └── tailwind.config.js│├── configs/│   ├── agents.yaml│   ├── departments.yaml│   ├── models.yaml│   ├── nodes.yaml│   ├── workflows.yaml│   ├── memory.yaml│   ├── permissions.yaml│   └── app.yaml│├── storage/│   ├── sqlite/│   ├── raw_memory/│   ├── summaries/│   ├── vector_db/│   ├── graph_db/│   ├── outputs/│   ├── logs/│   ├── files/│   └── backups/│├── data/├── scripts/├── tests/├── examples/└── modules/
+5. Backend Services
+5.1 app.py
+Primary FastAPI entrypoint.
+Responsibilities:
+Start ApolloGPT backend. 
+Expose /chat, /tasks, /projects, /memory, /agents, /workflows, /automations, /models, /nodes. 
+Load orchestrator and system services. 
+Register startup/shutdown hooks. 
+Provide health checks. 
+Core endpoints:
+GET  /healthPOST /chatPOST /tasksGET  /projectsPOST /projectsGET  /memory/searchPOST /memory/savePOST /workflows/runPOST /automations/createGET  /agentsPOST /agents/runGET  /nodes/status
+5.2 orchestrator.py
+Master coordinator.
+Responsibilities:
+Receive normalized requests. 
+Resolve workspace/project/task context. 
+Call task router. 
+Call memory manager. 
+Build context packet. 
+Select agent. 
+Route model/node. 
+Run workflow/tool. 
+Return final response. 
+Trigger memory update loop. 
+6. Object System
+6.1 Purpose
+The object system is the spine of ApolloGPT. It prevents chats, files, tasks, decisions, and outputs from becoming disconnected.
+6.2 Base Object Schema
+{  "id": "uuid",  "type": "project",  "name": "ApolloGPT Whitepaper",  "description": "Technical whitepaper project",  "workspace_id": "workspace_apollo",  "area_id": "area_docs",  "parent_id": null,  "status": "active",  "tags": ["whitepaper", "architecture"],  "metadata": {},  "created_at": "2026-05-09T00:00:00Z",  "updated_at": "2026-05-09T00:00:00Z"}
+6.3 Relationship Schema
+{  "id": "edge_uuid",  "source_id": "chat_001",  "target_id": "project_apollo_whitepaper",  "relationship": "belongs_to",  "confidence": 1.0,  "created_by": "system",  "metadata": {    "reason": "chat created inside project"  },  "created_at": "2026-05-09T00:00:00Z"}
+6.4 Required Relationship Types
+containsbelongs_toderived_fromproduced_byassigned_todepends_onblockssupportscontradictssupersedesused_byused_inreferencestriggersgenerated_fromreviewed_byapproved_by
+6.5 Object Lifecycle
+Create→ Classify→ Scope→ Link→ Store→ Execute→ Update→ Summarize→ Reuse→ Archive
+7. Memory System
+7.1 Required Memory Types
+ApolloGPT must implement:
+Raw MemoryVector MemoryGraph MemorySummary MemoryProcedural MemoryEpisodic MemoryPreference MemoryExecution MemoryState Memory
+7.2 Memory Scopes
+GlobalWorkspaceAreaDepartmentProjectAgentWorkflowTaskSessionWorking
+7.3 Memory Temperature
+Hot Memory  = current task/session/active fileWarm Memory = active project/workspace summaries, current tasks, recent decisionsCold Memory = archived chats, full documents, historical logs, old outputs
+7.4 Memory Unit Schema
+{  "id": "memory_uuid",  "type": "summary",  "scope": "project",  "temperature": "warm",  "source_object_id": "chat_001",  "workspace_id": "workspace_apollo",  "project_id": "project_whitepaper",  "agent_id": null,  "content": "Summary text...",  "embedding_id": "vec_001",  "graph_node_id": "node_001",  "importance": 0.85,  "confidence": 0.92,  "sensitivity": "internal",  "status": "active",  "created_at": "2026-05-09T00:00:00Z",  "updated_at": "2026-05-09T00:00:00Z"}
+7.5 Hybrid Memory Retrieval
+ApolloGPT retrieval should combine:
+Semantic Search       → Vector memoryRelationship Search   → Graph memorySummary Search        → Summary memoryScope Filtering       → project/workspace/agent/taskTemperature Filtering → hot/warm/coldRecency Ranking       → recent active contextImportance Ranking    → high-value memory
+7.6 Context Retrieval Formula
+FinalMemoryScore =  semantic_similarity * 0.35+ graph_relevance     * 0.25+ scope_match         * 0.20+ recency             * 0.10+ importance          * 0.10
+7.7 Memory Ingestion Pipeline
+Input Source→ Extract Text→ Normalize→ Chunk→ Summarize→ Embed→ Extract Entities→ Create Graph Nodes→ Create Graph Edges→ Store Raw→ Store Vector→ Store Summary→ Update Project/Agent/Workflow State
+8. Knowledge Graph Layer
+8.1 Purpose
+The knowledge graph makes memory connected. It lets ApolloGPT answer:
+What is this connected to?Which chats created this decision?Which tasks depend on this output?Which files support this section?Which agent produced this?What workflow should continue this?
+8.2 MVP Graph Storage
+Start simple:
+SQLite table: objectsSQLite table: relationshipsNetworkX: in-memory graph traversalChromaDB: vector memoryJSONL: raw event logs
+Later:
+Neo4j / ArangoDB / PostgreSQL graph extension
+8.3 Core Graph Queries
+get_neighbors(object_id)get_path(source_id, target_id)get_project_graph(project_id)get_task_dependencies(task_id)get_output_lineage(output_id)get_decision_impact(decision_id)find_related_chats(project_id, topic)detect_conflicts(project_id)
+9. Context Packet System
+9.1 Context Packet Schema
+{  "packet_id": "ctx_uuid",  "task": {    "id": "task_001",    "type": "write_section",    "instruction": "Write the developer system spec"  },  "intent": {    "primary": "technical_specification",    "secondary": ["architecture", "implementation"]  },  "scope": {    "workspace_id": "workspace_apollo",    "project_id": "project_whitepaper",    "department_id": "development"  },  "agent": {    "agent_id": "agent_architect",    "role": "Technical Architect"  },  "memory_bundle": {    "hot": [],    "warm": [],    "cold_retrieved": []  },  "related_objects": [],  "workflow_state": {},  "constraints": [    "developer-facing",    "local-first",    "memory-centric"  ],  "tools_available": [    "rag",    "graph_query",    "model_router",    "file_writer"  ],  "output": {    "format": "markdown",    "destination": "chat"  },  "success_criteria": [    "clear enough for developers",    "matches ApolloGPT architecture",    "defines modules and data models"  ]}
+9.2 Packet Build Sequence
+Resolve active object→ Detect intent→ Determine scope→ Retrieve hot memory→ Retrieve warm project memory→ Query graph links→ Retrieve cold archive if needed→ Compress memory→ Select agent→ Add workflow state→ Add constraints→ Render model-specific prompt
+10. Agent System
+10.1 Agent Schema
+{  "id": "agent_writer",  "name": "Writer Agent",  "role": "Long-form writing, books, blogs, scripts, whitepapers",  "department_id": "content",  "model_preferences": ["llama3_local", "mistral_local", "cloud_writer"],  "memory_access": ["global", "workspace", "project", "agent"],  "tools": ["rag", "file_writer", "web_search", "summarizer"],  "autonomy_level": 3,  "permissions": {    "can_create_tasks": true,    "can_run_workflows": true,    "can_send_external": false  },  "evaluation_rules": ["coherence", "style_match", "completion"]}
+10.2 Core Agents
+Manager AgentStrategist AgentResearcher AgentWriter AgentEditor AgentDeveloper AgentMedia AgentImage Prompt AgentAutomation AgentTrading AgentReal Estate AgentTrust Stack AgentCustomer Service AgentValidator AgentMemory Curator Agent
+10.3 Agent Execution
+Agent receives Context Packet→ Loads role profile→ Loads agent memory→ Selects model via Model Router→ Executes task→ Produces Output Object→ Logs execution→ Updates memory→ Suggests next action
+10.4 Autonomy Levels
+0 Manual only1 Suggests actions2 Executes approved steps3 Creates subtasks inside project4 Runs scoped workflows autonomously5 Goal-directed autonomous execution
+11. Department System
+Departments organize agents into operational teams.
+11.1 Department Schema
+{  "id": "dept_content",  "name": "Content Department",  "workspace_id": "workspace_apollo",  "agents": ["agent_writer", "agent_editor", "agent_researcher"],  "workflows": ["blog_pipeline", "whitepaper_pipeline"],  "memory_scope": ["workspace", "department", "project"],  "active_projects": []}
+11.2 Recommended Departments
+StrategyResearchWriting / PublishingDevelopmentMediaAutomationReal EstateTrust / Legal StructuringTradingCustomer ServiceOperationsMemory / Knowledge Management
+12. Workflow System
+12.1 Workflow Schema
+{  "id": "workflow_blog_post",  "name": "Generate and Prepare Blog Post",  "type": "content_pipeline",  "trigger": "manual",  "steps": [    {      "id": "step_research",      "type": "agent",      "agent": "researcher",      "task": "Research topic",      "depends_on": []    },    {      "id": "step_write",      "type": "agent",      "agent": "writer",      "task": "Write article draft",      "depends_on": ["step_research"]    },    {      "id": "step_edit",      "type": "agent",      "agent": "editor",      "task": "Edit and polish article",      "depends_on": ["step_write"]    },    {      "id": "step_schedule",      "type": "integration",      "tool": "n8n",      "task": "Send to publishing workflow",      "depends_on": ["step_edit"],      "approval_required": true    }  ]}
+12.2 Workflow Engine Requirements
+Must support:
+Sequential stepsParallel stepsConditional branchesApproval gatesRetriesFailure handlingPause/resumeCheckpointingObject passingContext packet per stepMemory update per stepWorkflow run logs
+12.3 Workflow Run Object
+{  "run_id": "run_uuid",  "workflow_id": "workflow_blog_post",  "project_id": "project_content",  "status": "running",  "current_step": "step_write",  "started_at": "2026-05-09T00:00:00Z",  "completed_at": null,  "step_results": [],  "errors": []}
+13. Automation System
+13.1 Automation Schema
+{  "id": "auto_new_lead",  "name": "New Real Estate Lead Intake",  "trigger": {    "type": "webhook",    "path": "/webhooks/new-lead"  },  "conditions": [    {      "field": "lead_type",      "operator": "in",      "value": ["wholesale", "sub2", "lease_option"]    }  ],  "workflow_id": "workflow_real_estate_lead_analysis",  "memory_scope": "project",  "approval_required": false,  "status": "active"}
+13.2 Trigger Types
+ManualCronWebhookFile droppedNew chat savedNew task createdTask completedMemory updatedProject staleNode online/offlineExternal API event
+13.3 n8n Integration
+ApolloGPT should integrate with self-hosted n8n through webhooks:
+ApolloGPT → n8n webhook → external actionn8n webhook → ApolloGPT automation → workflow run
+The existing architecture includes n8n_client.py with webhook triggering, and the system notes position n8n as a self-hosted task executor for email, posting, APIs, scheduled workflows, and external actions. 
+14. Model Router
+14.1 Model Registry Schema
+{  "id": "llama3_8b_local",  "name": "LLaMA 3 8B",  "provider": "ollama",  "type": "text",  "location": "local",  "capabilities": ["writing", "summarization", "general_reasoning"],  "context_window": 8192,  "privacy_level": "private",  "cost": "free",  "speed": "medium",  "quality_scores": {    "writing": 0.82,    "coding": 0.61  },  "node_id": "node_laptop_4060"}
+14.2 Routing Inputs
+Task typeAgent roleRequired modalityPrivacy levelContext sizeLatency requirementCost constraintAvailable node resourcesHistorical performanceUser preference
+14.3 Routing Output
+{  "selected_model": "deepseek_local",  "selected_node": "node_4070_super",  "reason": "coding task, local privacy required, node has available VRAM",  "fallbacks": ["llama3_8b_local", "cloud_reasoning"]}
+14.4 Model Types
+Text LLMEmbedding modelRerankerImage generation modelControlNetUpscalerSpeech-to-textText-to-speechVideo generationCode modelTrading/analysis model
+15. Node Compute System
+15.1 Node Schema
+{  "id": "node_4070_super",  "name": "Apollo Node Beta",  "host": "192.168.1.42",  "port": 8010,  "status": "online",  "hardware": {    "cpu": "i9",    "ram_gb": 128,    "gpu": "RTX 4070 Super",    "vram_gb": 12  },  "capabilities": [    "text_inference",    "image_generation",    "embedding",    "workflow_execution"  ],  "models_loaded": ["llama3_8b", "sdxl"],  "current_load": {    "cpu": 0.22,    "ram": 0.41,    "gpu": 0.15,    "vram": 0.68  },  "last_heartbeat": "2026-05-09T00:00:00Z"}
+15.2 Node Roles
+Controller NodeWorker NodeMemory NodeMedia NodeEmbedding NodeVoice NodeTraining NodeCloud Fallback Node
+15.3 Node Flow
+Model Router requests capability→ Node Router checks registry→ Resource Monitor checks live load→ Task Queue assigns job→ Worker executes→ Result returns→ Logs update→ Memory updates
+16. UI System
+16.1 3-Panel Command Center
+Left Panel — Structure
+WorkspacesAreasDepartmentsProjectsAgentsWorkflowsAutomationsMemoryFilesNodesModels
+Center Panel — Work Surface
+ChatDocument editorWorkflow canvasProject dashboardTask boardImage studioCode editorOutput viewer
+Right Panel — Intelligence State
+Active memory usedContext packet previewCurrent agentCurrent modelCurrent nodeWorkflow stateTask statusFiles referencedOutput lineageLogsConfidence / quality score
+16.2 Workflow Builder
+Use React Flow.
+Node types:
+Trigger NodeAgent NodeModel NodeTool NodeMemory Retrieval NodeCondition NodeWait NodeApproval NodeParallel NodeMerge NodeOutput NodeWebhook Node
+The uploaded n8n-engineer discussions specify React + Tailwind with React Flow for an n8n-style visual workflow UI, using trigger, agent, action, logic, wait, merge, and scheduler nodes. 
+17. Storage Strategy
+17.1 MVP Storage
+SQLite      → objects, tasks, workflows, relationships, logsChromaDB    → vector memoryJSONL       → raw event logsFilesystem → files, outputs, images, documentsNetworkX    → in-memory graph traversal
+17.2 Later Storage
+PostgreSQLNeo4j / ArangoDBRedisObject storageSyncthing for LAN file syncEncrypted backups
+17.3 Required Tables
+objectsrelationshipsmemory_unitstasksagentsdepartmentsworkflowsworkflow_runsautomationsmodelsnodeseventsoutputsfilespermissions
+18. API Specification
+18.1 Chat
+POST /chat
+Request:
+{  "message": "Continue the ApolloGPT whitepaper",  "workspace_id": "workspace_apollo",  "project_id": "project_whitepaper",  "mode": "execute"}
+Response:
+{  "response": "...",  "task_id": "task_001",  "agent_id": "agent_writer",  "model_id": "llama3_8b",  "node_id": "node_laptop",  "memory_used": [],  "outputs": []}
+18.2 Memory Search
+POST /memory/search
+{  "query": "right panel UI memory state",  "scope": {    "workspace_id": "workspace_apollo",    "project_id": "project_ui"  },  "types": ["summary", "vector", "graph"],  "limit": 10}
+18.3 Workflow Run
+POST /workflows/run
+{  "workflow_id": "workflow_blog_post",  "project_id": "project_content",  "input": {    "topic": "How land trusts support creative real estate deals"  }}
+18.4 Node Heartbeat
+POST /nodes/heartbeat
+{  "node_id": "node_4070_super",  "status": "online",  "resource_usage": {    "gpu": 0.22,    "vram": 0.64  }}
+19. Security Requirements
+19.1 Local-First Defaults
+Default behavior:
+No external API unless user enables itNo cloud memory sync unless enabledRestricted memory stays localExternal posting requires approvalCredentials stored in .env or encrypted vault
+19.2 Permissions
+Every agent/tool/workflow has permissions:
+{  "agent_id": "agent_social_scheduler",  "permissions": {    "read_memory": ["project", "department"],    "write_memory": ["project"],    "external_webhook": true,    "send_email": "approval_required",    "post_social": "approval_required",    "financial_action": false  }}
+19.3 Audit Logs
+Log:
+who/agent actedwhat object changedwhat memory was usedwhat model/node ranwhat external calls happenedwhat output was producedwhether approval was granted
+20. MVP Build Plan
+Phase 1 — Local Proof of Concept
+Goal: one laptop, one backend, basic memory, basic agents.
+Build:
+FastAPI app.pySQLite object registryChroma vector memoryBasic graph relationship tableTask routerContext packet builderWriter / Researcher / Manager agentsOllama or LM Studio adapterWorkflow runnerSimple web UI or Streamlit
+Phase 2 — Project + Memory System
+Build:
+Workspace/project objectsChat ingestionFile ingestionMemory scopesHot/warm/cold memorySummary managerGraph linkingMemory explorer UI
+Phase 3 — Workflow + Automation
+Build:
+Visual workflow builderWorkflow run enginen8n webhook integrationCron schedulerApproval gatesEvent bus
+Phase 4 — Multimodal
+Build:
+Stable Diffusion / SDXL adapterLoRA profile handlingControlNet optionsWhisper inputTTS outputMedia output storage
+Phase 5 — Multi-Node
+Build:
+Node registryHeartbeatResource monitorNode routerTask queueLAN authenticationFile sync strategy
+Phase 6 — Optimization
+Build:
+Execution scoringModel performance trackingAgent performance trackingWorkflow optimizationRetrieval optimizationMASS-style topology search
+The V2 roadmap targets a fast MVP in 4–8 weeks, Full V1 in 3–6 months, and advanced distributed/MASS modules in 6–12 months. 
+21. Minimal Working Backend Spine
+This is the first real build order:
+1. app.py2. settings.py3. database.py4. schemas.py5. object_service.py6. relationship_service.py7. memory_manager.py8. task_router.py9. context_packet_builder.py10. model_router.py11. base_agent.py12. agent_controller.py13. workflow_runner.py14. n8n_client.py15. frontend MVP
+22. The Developer Summary
+ApolloGPT is built around this invariant:
+Every user action becomes an object.Every object can become memory.Every memory can be linked.Every link can build context.Every context packet can route an agent.Every agent can execute a workflow.Every workflow can produce outputs.Every output updates memory.The system improves because the loop never resets.

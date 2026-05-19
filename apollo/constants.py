@@ -1,0 +1,4 @@
+APP_NAME = "ApolloGPT"
+APP_VERSION = "0.1.0"
+DEFAULT_PROJECT = "ApolloGPT"
+

@@ -1,0 +1,7 @@
+tools:
+  - file_system
+  - memory_search
+  - workflow_runner
+  - n8n
+  - stable_diffusion
+  - whisper

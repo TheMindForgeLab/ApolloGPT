@@ -1,0 +1,4 @@
+projects:
+  - id: apollogpt
+    name: ApolloGPT
+    status: active

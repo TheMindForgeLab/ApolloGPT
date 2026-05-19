@@ -1,0 +1,7 @@
+departments:
+  - id: development
+    name: Development
+  - id: content
+    name: Content
+  - id: automation
+    name: Automation

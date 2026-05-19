@@ -1,0 +1,11 @@
+[project]
+name = "apollogpt-backend"
+version = "0.1.0"
+description = "Local-first memory-centric multi-agent AI operating system backend scaffold."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
