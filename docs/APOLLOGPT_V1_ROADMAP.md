@@ -57,6 +57,22 @@ Goal: persistent project memory with context packets.
 
 Start with JSONL and summaries. Then upgrade `vector_store.py` to Chroma/Qdrant and `graph_store.py` to NetworkX/Neo4j.
 
+Phase 2 implementation target:
+
+- chunk text into scoped memory units
+- ingest text/markdown-like files into local memory
+- store source metadata and content hashes
+- retrieve memory with project scope and retrieval scores
+- expose memory search and text ingestion through API
+- keep generated vector/runtime memory out of GitHub
+
+Run:
+
+```powershell
+python scripts/phase2_memory_smoke_test.py
+python scripts/ingest_text_file.py docs/APOLLOGPT_BUILD_SPEC.md --project ApolloGPT
+```
+
 ## Phase 3: Agent System
 
 Goal: manager, researcher, writer, editor, coder, media, automation, validator, analyst, and planner agents.

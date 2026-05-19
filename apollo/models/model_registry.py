@@ -30,13 +30,22 @@ class ModelRegistry:
         data = json.loads(self.config_path.read_text(encoding="utf-8"))
         return [ModelProfile(**item) for item in data.get("models", [])]
 
-    def find_for_role(self, role: str) -> Optional[ModelProfile]:
+    def find_for_role(self, role: str, provider: str | None = None, model_id: str | None = None) -> Optional[ModelProfile]:
         profiles = self.profiles()
+        if model_id:
+            for profile in profiles:
+                if profile.id == model_id or profile.model == model_id:
+                    return profile
+            if provider:
+                return ModelProfile(id=f"{provider}:{model_id}", provider=provider, model=model_id, role=role)
+
         for profile in profiles:
-            if profile.role == role:
+            if profile.role == role and (provider in {None, "", "local_echo"} or profile.provider == provider):
                 return profile
         for profile in profiles:
-            if profile.role == "default":
+            if profile.role == "default" and (provider in {None, "", "local_echo"} or profile.provider == provider):
                 return profile
         return None
 
+    def providers(self) -> list[str]:
+        return sorted({profile.provider for profile in self.profiles()})

@@ -31,7 +31,7 @@
       "id": "lmstudio_openai_compatible",
       "provider": "lmstudio",
       "model": "local-model",
-      "role": "manual",
+      "role": "default",
       "base_url": "http://localhost:1234/v1",
       "capabilities": ["chat", "moe", "gguf", "manual_model_loading"],
       "notes": "Use LM Studio server mode. Set APOLLO_MODEL_PROVIDER=lmstudio and set model names to the loaded model id."
@@ -40,7 +40,7 @@
       "id": "vllm_openai_compatible",
       "provider": "vllm",
       "model": "served-model-name",
-      "role": "server",
+      "role": "reasoning",
       "base_url": "http://localhost:8001/v1",
       "capabilities": ["chat", "high_throughput", "gpu_server", "openai_compatible"]
     },
@@ -60,6 +60,11 @@
       "base_url": "http://localhost:5001",
       "capabilities": ["gguf", "cpu_gpu_split", "simple_local_server"]
     }
-  ]
+  ],
+  "routing": {
+    "allow_any_model": true,
+    "manual_override_env": "APOLLO_MODEL_ID",
+    "provider_override_env": "APOLLO_MODEL_PROVIDER",
+    "default_role_order": ["coding", "reasoning", "writing", "default", "manual"]
+  }
 }
-

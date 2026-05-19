@@ -157,6 +157,24 @@ model.generate(prompt: str) -> str
 
 That keeps agents, memory, workflows, and UI independent from the model runner.
 
+## Arbitrary Model Access
+
+ApolloGPT should not limit users to hard-coded model names. The current router supports:
+
+- `APOLLO_MODEL_PROVIDER` to choose the source, such as `ollama`, `lmstudio`, `vllm`, `textgen-webui`, `koboldcpp`, `localai`, or `openai_compatible`
+- `APOLLO_MODEL_ID` to choose any model id/name served by that source
+- `configs/model_sources.json` to register known models, MoE models, LoRAs, capabilities, active parameters, and preferred roles
+
+Example:
+
+```powershell
+$env:APOLLO_MODEL_PROVIDER="lmstudio"
+$env:APOLLO_MODEL_ID="openhermes-2.5-mistral-7b"
+python -m apollo.main "Use whatever model LM Studio is serving."
+```
+
+For MoE models, add entries with both `size` and `active_parameters`, then assign roles like `reasoning`, `writing`, `coding`, or `manual`.
+
 ## Best Near-Term Path
 
 1. Keep Ollama for simple local models.
@@ -164,4 +182,3 @@ That keeps agents, memory, workflows, and UI independent from the model runner.
 3. Add Text Generation WebUI when you want heavier LoRA/QLoRA experimentation.
 4. Add vLLM when you want a more serious always-on model server.
 5. Add Stable Diffusion/ComfyUI as a separate media adapter instead of mixing it into the text model router.
-
