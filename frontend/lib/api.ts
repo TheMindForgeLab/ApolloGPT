@@ -53,3 +53,42 @@ export function listTasks(businessId?: string) {
   const query = businessId ? `?business_id=${encodeURIComponent(businessId)}` : "";
   return request(`/api/tasks${query}`);
 }
+
+export function getAgentIntelligenceInventory() {
+  return request("/api/agent-intelligence");
+}
+
+export function createPersona(payload: Record<string, unknown>) {
+  return request("/api/agent-intelligence/personas", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+export function createSkill(payload: Record<string, unknown>) {
+  return request("/api/agent-intelligence/skills", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+export function createLoRAProfile(payload: Record<string, unknown>) {
+  return request("/api/agent-intelligence/loras", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+export function createMemoryPolicy(payload: Record<string, unknown>) {
+  return request("/api/agent-intelligence/memory-policies", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+export function createCustomAgent(payload: Record<string, unknown>) {
+  return request("/api/agent-intelligence/agents", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}

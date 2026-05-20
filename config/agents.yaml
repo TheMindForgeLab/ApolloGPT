@@ -5,3 +5,11 @@ agents:
     role: Long-form writing and documentation
   - id: agent_coder
     role: Backend implementation and debugging
+agent_intelligence:
+  composable_parts:
+    - persona
+    - skills
+    - style_profile
+    - lora_profiles
+    - memory_policy
+    - model_preferences

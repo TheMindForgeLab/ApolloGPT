@@ -39,3 +39,34 @@ export type Task = {
   priority: string;
   progress: number;
 };
+
+export type Persona = {
+  id: string;
+  name: string;
+  tone: string;
+  rules: string[];
+};
+
+export type Skill = {
+  id: string;
+  name: string;
+  skill_type: string;
+  instructions: string;
+  tools: string[];
+};
+
+export type LoRAProfile = {
+  id: string;
+  name: string;
+  lora_type: string;
+  base_model: string;
+  trigger_phrase: string;
+  strength: number;
+};
+
+export type MemoryPolicy = {
+  id: string;
+  name: string;
+  scopes: string[];
+  retrieval_limit: number;
+};

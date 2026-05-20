@@ -110,6 +110,78 @@ CREATE TABLE IF NOT EXISTS automations (
     FOREIGN KEY (department_id) REFERENCES departments(id),
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );
+
+CREATE TABLE IF NOT EXISTS personas (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    tone TEXT NOT NULL DEFAULT '',
+    rules_json TEXT NOT NULL DEFAULT '[]',
+    examples_json TEXT NOT NULL DEFAULT '[]',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS skills (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    skill_type TEXT NOT NULL DEFAULT 'general',
+    instructions TEXT NOT NULL DEFAULT '',
+    tools_json TEXT NOT NULL DEFAULT '[]',
+    input_types_json TEXT NOT NULL DEFAULT '[]',
+    output_types_json TEXT NOT NULL DEFAULT '[]',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS lora_profiles (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    lora_type TEXT NOT NULL DEFAULT 'text',
+    base_model TEXT NOT NULL DEFAULT '',
+    trigger_phrase TEXT NOT NULL DEFAULT '',
+    strength REAL NOT NULL DEFAULT 1.0,
+    adapter_path TEXT NOT NULL DEFAULT '',
+    allowed_models_json TEXT NOT NULL DEFAULT '[]',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS memory_policies (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    scopes_json TEXT NOT NULL DEFAULT '[]',
+    retrieval_limit INTEGER NOT NULL DEFAULT 8,
+    include_summaries INTEGER NOT NULL DEFAULT 1,
+    include_graph INTEGER NOT NULL DEFAULT 1,
+    include_files INTEGER NOT NULL DEFAULT 1,
+    rules_json TEXT NOT NULL DEFAULT '[]',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS agent_intelligence_profiles (
+    id TEXT PRIMARY KEY,
+    agent_id TEXT NOT NULL,
+    persona_id TEXT,
+    memory_policy_id TEXT,
+    skill_ids_json TEXT NOT NULL DEFAULT '[]',
+    lora_profile_ids_json TEXT NOT NULL DEFAULT '[]',
+    style_profile_json TEXT NOT NULL DEFAULT '{}',
+    domain_packs_json TEXT NOT NULL DEFAULT '[]',
+    system_instructions TEXT NOT NULL DEFAULT '',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    FOREIGN KEY (agent_id) REFERENCES agents(id),
+    FOREIGN KEY (persona_id) REFERENCES personas(id),
+    FOREIGN KEY (memory_policy_id) REFERENCES memory_policies(id)
+);
 """
 
 

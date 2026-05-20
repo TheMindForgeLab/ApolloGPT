@@ -85,3 +85,21 @@ The right panel shows context packet, retrieved memory, active agents, workflow 
 5. Agent Execution: configs, routing, model router, tool access, memory injection.
 6. Media + Automation: Stable Diffusion, LoRA manager, Whisper, n8n, schedulers, webhooks.
 
+## Agent Intelligence Wizard
+
+Agent creation should be composable:
+
+```text
+Base Agent + Persona + Skill Mix + Style Profile + LoRA/Adapter Stack + Memory Policy + Model Preference
+```
+
+The first wizard implementation creates:
+
+- persona profile
+- skill profile
+- LoRA profile
+- memory/RAG policy
+- custom agent intelligence profile
+- composed prompt preview
+
+This allows a writer style or other specialized persona to carry across multiple model providers instead of being locked to one LLM.

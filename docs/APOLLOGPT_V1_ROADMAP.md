@@ -86,6 +86,23 @@ Goal: manager, researcher, writer, editor, coder, media, automation, validator, 
 
 Agents should receive context packets and models. They should not directly own every subsystem.
 
+Phase 3 implementation target:
+
+- programmable personas
+- reusable skills
+- LoRA / adapter profiles
+- memory/RAG policies per agent
+- custom agent intelligence profiles
+- prompt composer that combines agent + persona + style + skills + LoRAs + memory policy
+- API routes for creating these pieces
+- frontend Agent Intelligence Wizard
+
+Run:
+
+```powershell
+python scripts/phase3_agent_intelligence_smoke_test.py
+```
+
 ## Phase 4: Business + Department Layer
 
 Goal: structure ApolloGPT around workspaces/businesses, departments, projects, agents, tasks, and memory scopes.
